@@ -16,6 +16,8 @@ services:
         sync: false
       - key: HF_MODEL
         value: meta-llama/Llama-3.1-8B-Instruct
+      - key: BASE_URL
+        sync: false  # set this to the service's own Render URL after first deploy, e.g. https://tree-chatbot.onrender.com — used to build each tree's QR code link
       - key: DATABASE_URL
         fromDatabase:
           name: treebot-db
