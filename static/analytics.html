@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>QR Scan Analytics</title>
+<style>
+  :root {
+    --forest: #2C5F2D;
+    --forest-dark: #1B3A1E;
+    --muted: #6b7a6d;
+    --line: #e7ebe4;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, "Segoe UI", Roboto, sans-serif; background: #f6f8f5; color: #2B2B2B; }
+  .topbar { background: var(--forest-dark); color: white; padding: 12px 20px; font-size: 14px; font-weight: 600; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 20px 16px 40px; }
+  table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  th, td { padding: 10px 14px; text-align: left; font-size: 13.5px; border-bottom: 1px solid var(--line); }
+  th { background: var(--forest); color: white; font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  .count { font-weight: 700; color: var(--forest); }
+  .muted { color: var(--muted); font-size: 12px; }
+  .qr-thumb { width: 56px; height: 56px; display: block; }
+  a.link { color: var(--forest); word-break: break-all; }
+  .refresh { margin-bottom: 14px; font-size: 12.5px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="topbar">📊 QR Scan Analytics</div>
+<div class="wrap">
+  <div class="refresh">Ranked by total scans — shows which tree's QR code is getting scanned most.</div>
+  <table>
+    <thead>
+      <tr>
+        <th>QR</th>
+        <th>Tree</th>
+        <th>Scans</th>
+        <th>Last scanned</th>
+        <th>Link</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+</div>
+<script>
+  async function load() {
+    const res = await fetch("/api/analytics/scans");
+    const rows = await res.json();
+    document.getElementById("rows").innerHTML = rows.map(r => `
+      <tr>
+        <td><img class="qr-thumb" src="/api/qr/${r.tree_id}.png" alt="QR for ${r.common_name_en}" /></td>
+        <td>${r.common_name_en}<div class="muted">${r.common_name_gu}</div></td>
+        <td class="count">${r.scan_count}</td>
+        <td class="muted">${r.last_scanned_at ? new Date(r.last_scanned_at).toLocaleString() : "never"}</td>
+        <td><a class="link" href="${r.qr_url}" target="_blank">${r.qr_url}</a></td>
+      </tr>
+    `).join("");
+  }
+  load();
+</script>
+</body>
+</html>
