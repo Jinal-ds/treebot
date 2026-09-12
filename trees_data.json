@@ -18,7 +18,8 @@
       "uses": "The ripe fruit is eaten fresh or used in juices and desserts; raw mango is used in pickles and chutneys; leaves are used in some religious décor.",
       "wood_quality": "Medium-hard wood, sometimes used for cheap furniture and packing crates, but the tree is grown for fruit, not timber.",
       "flowering_season": "January to March, with fruit ripening April to June",
-      "fun_fact": "The mango is India's national fruit, and India is the world's largest producer."
+      "fun_fact": "The mango is India's national fruit, and India is the world's largest producer.",
+      "common_name_hi": "आम"
     },
     {
       "id": "banyan",
@@ -34,7 +35,8 @@
       "uses": "Widely regarded as sacred in Indian tradition; provides deep shade and is a common gathering point in villages; bark and leaves used in traditional remedies.",
       "wood_quality": "Soft, not valued as timber; the tree's importance is ecological and cultural, not for wood.",
       "flowering_season": "Produces small figs nearly year-round rather than showy flowers",
-      "fun_fact": "India's national tree; a single banyan in Kolkata's botanical garden covers several acres."
+      "fun_fact": "India's national tree; a single banyan in Kolkata's botanical garden covers several acres.",
+      "common_name_hi": "बरगद"
     },
     {
       "id": "peepal",
@@ -50,7 +52,8 @@
       "uses": "Associated with religious worship; leaves and bark used in traditional remedies; commonly planted near temples.",
       "wood_quality": "Soft and not commonly used as structural timber.",
       "flowering_season": "Inconspicuous flowers inside its figs, produced through much of the year",
-      "fun_fact": "Buddhist tradition holds that Buddha attained enlightenment while sitting under a peepal tree."
+      "fun_fact": "Buddhist tradition holds that Buddha attained enlightenment while sitting under a peepal tree.",
+      "common_name_hi": "पीपल"
     },
     {
       "id": "neem",
@@ -66,7 +69,8 @@
       "uses": "Traditionally used for skin conditions and as a natural pest repellent; leaves stored with grain and clothes to deter insects; twigs traditionally used as a natural toothbrush.",
       "wood_quality": "Moderately hard, termite-resistant wood, used in some furniture and construction.",
       "flowering_season": "March to May",
-      "fun_fact": "Neem is sometimes called the 'village pharmacy' in rural India for its many traditional uses."
+      "fun_fact": "Neem is sometimes called the 'village pharmacy' in rural India for its many traditional uses.",
+      "common_name_hi": "नीम"
     },
     {
       "id": "gulmohar",
@@ -82,7 +86,8 @@
       "uses": "Grown almost entirely for shade and ornamental value along avenues and parks; not typically used for food or medicine.",
       "wood_quality": "Soft and brittle; not used as structural timber.",
       "flowering_season": "April to June",
-      "fun_fact": "It's called the 'Flame of the Forest' in many countries for how vividly it blooms."
+      "fun_fact": "It's called the 'Flame of the Forest' in many countries for how vividly it blooms.",
+      "common_name_hi": "गुलमोहर"
     },
     {
       "id": "ashoka",
@@ -98,7 +103,8 @@
       "uses": "Considered sacred and associated with several Indian legends; bark traditionally used in Ayurvedic preparations for women's health.",
       "wood_quality": "Not typically used as timber; valued as an ornamental and sacred tree.",
       "flowering_season": "February to April",
-      "fun_fact": "Often confused with the unrelated 'Mast Tree' (Polyalthia longifolia), which is sometimes sold as 'false ashoka.'"
+      "fun_fact": "Often confused with the unrelated 'Mast Tree' (Polyalthia longifolia), which is sometimes sold as 'false ashoka.'",
+      "common_name_hi": "अशोक"
     },
     {
       "id": "tamarind",
@@ -114,7 +120,8 @@
       "uses": "Pulp used extensively in Indian cooking (chutneys, sambhar, candies); also used in traditional remedies for digestion.",
       "wood_quality": "Very hard, heavy, and durable wood, used for furniture, tool handles, and wood carving.",
       "flowering_season": "April to June",
-      "fun_fact": "A single tamarind tree can live for well over 100 years and keep fruiting."
+      "fun_fact": "A single tamarind tree can live for well over 100 years and keep fruiting.",
+      "common_name_hi": "इमली"
     },
     {
       "id": "jamun",
@@ -130,7 +137,8 @@
       "uses": "Fruit eaten fresh or used in juices and vinegar; seeds are traditionally used in home remedies related to blood sugar.",
       "wood_quality": "Moderately hard, water-resistant wood, sometimes used for well construction and boats.",
       "flowering_season": "March to April, fruiting May to July",
-      "fun_fact": "Jamun-stained tongues are a childhood memory for many people who grew up near these trees in India."
+      "fun_fact": "Jamun-stained tongues are a childhood memory for many people who grew up near these trees in India.",
+      "common_name_hi": "जामुन"
     },
     {
       "id": "amla",
@@ -146,7 +154,8 @@
       "uses": "Fruit used in pickles, candies, and traditional preparations like chyawanprash; widely used in Ayurveda.",
       "wood_quality": "Moderately hard wood, occasionally used for small implements and fuelwood.",
       "flowering_season": "March to May",
-      "fun_fact": "Amla is considered one of the richest natural sources of vitamin C among common fruits."
+      "fun_fact": "Amla is considered one of the richest natural sources of vitamin C among common fruits.",
+      "common_name_hi": "आंवला"
     },
     {
       "id": "jackfruit",
@@ -162,7 +171,8 @@
       "uses": "Ripe fruit eaten fresh or used in desserts; raw/young jackfruit widely used as a meat substitute in curries.",
       "wood_quality": "Durable, termite-resistant, golden-hued wood, valued for furniture and musical instruments.",
       "flowering_season": "Flowers most of the year; main fruiting season March to July",
-      "fun_fact": "A single jackfruit can weigh over 30 kilograms."
+      "fun_fact": "A single jackfruit can weigh over 30 kilograms.",
+      "common_name_hi": "कटहल"
     },
     {
       "id": "coconut",
@@ -178,7 +188,8 @@
       "uses": "Water, flesh, and oil used widely in cooking; every part of the tree is traditionally used, giving it the nickname 'tree of life'; leaves used for thatching and religious rituals.",
       "wood_quality": "Fibrous 'wood' from the trunk is used in some construction; not a hardwood timber.",
       "flowering_season": "Flowers and fruits nearly year-round once mature",
-      "fun_fact": "A single coconut palm can produce fruit for over 60 years."
+      "fun_fact": "A single coconut palm can produce fruit for over 60 years.",
+      "common_name_hi": "नारियल"
     },
     {
       "id": "teak",
@@ -192,9 +203,10 @@
       "longitude": 72.5723,
       "description": "A tall deciduous tree with very large, rough leaves, grown commercially across India for its valuable timber.",
       "uses": "Almost entirely grown for timber rather than food or medicine; occasionally leaves are used as natural plate liners in rural areas.",
-      "wood_quality": "One of the most valued hardwoods in the world \u2014 strong, naturally weather- and pest-resistant, prized for furniture, boats, and construction.",
+      "wood_quality": "One of the most valued hardwoods in the world — strong, naturally weather- and pest-resistant, prized for furniture, boats, and construction.",
       "flowering_season": "June to August",
-      "fun_fact": "Teak furniture can last for generations without needing chemical preservatives, thanks to natural oils in the wood."
+      "fun_fact": "Teak furniture can last for generations without needing chemical preservatives, thanks to natural oils in the wood.",
+      "common_name_hi": "सागौन"
     },
     {
       "id": "sal",
@@ -210,7 +222,8 @@
       "uses": "Resin traditionally used as incense; leaves used to make disposable eco-friendly plates; historically significant in tribal and religious contexts.",
       "wood_quality": "Very strong, durable hardwood, historically used for railway sleepers and heavy construction.",
       "flowering_season": "February to April",
-      "fun_fact": "Buddhist tradition holds that Buddha was born under a sal tree."
+      "fun_fact": "Buddhist tradition holds that Buddha was born under a sal tree.",
+      "common_name_hi": "साल"
     },
     {
       "id": "champa",
@@ -226,7 +239,8 @@
       "uses": "Flowers widely used in religious offerings and garlands; essential oils used in perfumery.",
       "wood_quality": "Soft wood with little structural use, sometimes used in minor carving.",
       "flowering_season": "March to October",
-      "fun_fact": "Its fragrance is strongest at night, when it attracts pollinating moths."
+      "fun_fact": "Its fragrance is strongest at night, when it attracts pollinating moths.",
+      "common_name_hi": "चंपा"
     },
     {
       "id": "bottlebrush",
@@ -242,7 +256,8 @@
       "uses": "Almost entirely ornamental; flowers attract birds and bees; occasionally used in traditional Australian remedies.",
       "wood_quality": "Hard but rarely used commercially; the tree is grown for looks, not timber.",
       "flowering_season": "March to June, sometimes again in autumn",
-      "fun_fact": "Its flowers are rich in nectar and are a favourite of sunbirds in Indian gardens."
+      "fun_fact": "Its flowers are rich in nectar and are a favourite of sunbirds in Indian gardens.",
+      "common_name_hi": "बॉटलब्रश"
     },
     {
       "id": "rain_tree",
@@ -258,7 +273,8 @@
       "uses": "Primarily an avenue and shade tree; pods are sometimes used as cattle fodder.",
       "wood_quality": "Moderately soft wood, occasionally used for carving and lightweight furniture.",
       "flowering_season": "April to June",
-      "fun_fact": "Its leaves fold up in the evening or before rain, which is how it earned the name 'rain tree.'"
+      "fun_fact": "Its leaves fold up in the evening or before rain, which is how it earned the name 'rain tree.'",
+      "common_name_hi": "विलायती सिरिस"
     },
     {
       "id": "karanj",
@@ -274,7 +290,8 @@
       "uses": "Seed oil traditionally used in lamps and skin treatments, and increasingly studied as a biodiesel source; leaves used as a natural pest deterrent.",
       "wood_quality": "Moderately hard wood, used for low-cost furniture and fuelwood.",
       "flowering_season": "April to July",
-      "fun_fact": "Karanj oil is one of the earliest biodiesel candidates researched in India."
+      "fun_fact": "Karanj oil is one of the earliest biodiesel candidates researched in India.",
+      "common_name_hi": "करंज"
     },
     {
       "id": "bael",
@@ -290,7 +307,8 @@
       "uses": "Fruit pulp used to make a traditional cooling summer drink; leaves considered sacred in Shiva worship; used in traditional digestive remedies.",
       "wood_quality": "Hard, yellowish wood, occasionally used for tool handles.",
       "flowering_season": "April to May",
-      "fun_fact": "Bael leaves are traditionally offered in threes during worship of Lord Shiva."
+      "fun_fact": "Bael leaves are traditionally offered in threes during worship of Lord Shiva.",
+      "common_name_hi": "बेल"
     },
     {
       "id": "semal",
@@ -306,7 +324,8 @@
       "uses": "Seed floss traditionally used as pillow and mattress stuffing; gum used in some traditional remedies.",
       "wood_quality": "Soft, lightweight wood, used for packing cases, matchsticks, and plywood.",
       "flowering_season": "January to March, typically while leafless",
-      "fun_fact": "Its cotton-like seed floss is naturally water-resistant, which is why it was historically used in life jackets."
+      "fun_fact": "Its cotton-like seed floss is naturally water-resistant, which is why it was historically used in life jackets.",
+      "common_name_hi": "सेमल"
     },
     {
       "id": "arjuna",
@@ -322,7 +341,8 @@
       "uses": "Bark widely used in traditional Ayurvedic preparations, particularly ones associated with heart health.",
       "wood_quality": "Hard, strong wood, used for agricultural tools and construction.",
       "flowering_season": "March to June",
-      "fun_fact": "Its smooth, pale bark makes it easy to identify even from a distance."
+      "fun_fact": "Its smooth, pale bark makes it easy to identify even from a distance.",
+      "common_name_hi": "अर्जुन"
     },
     {
       "id": "saptaparni",
@@ -338,7 +358,8 @@
       "uses": "Bark traditionally used in remedies for fever; wood historically used for writing slates and school blackboards.",
       "wood_quality": "Soft, lightweight wood, easy to work but not very durable.",
       "flowering_season": "October to December",
-      "fun_fact": "Its heavy night-time fragrance means some cities restrict planting it directly outside homes."
+      "fun_fact": "Its heavy night-time fragrance means some cities restrict planting it directly outside homes.",
+      "common_name_hi": "सप्तपर्णी"
     },
     {
       "id": "mast_tree",
@@ -354,7 +375,8 @@
       "uses": "Almost entirely ornamental and used for noise/dust screening along roads; not the same species as the sacred true Ashoka tree, despite the common name.",
       "wood_quality": "Lightweight wood, historically used for ship masts, giving the tree its English name.",
       "flowering_season": "March to April",
-      "fun_fact": "It's frequently mislabelled simply as 'Ashoka tree,' though it's botanically unrelated to Saraca asoca."
+      "fun_fact": "It's frequently mislabelled simply as 'Ashoka tree,' though it's botanically unrelated to Saraca asoca.",
+      "common_name_hi": "देवदार अशोक"
     },
     {
       "id": "palash",
@@ -370,7 +392,8 @@
       "uses": "Flowers traditionally used to make natural dye (associated with the Holi festival); gum and bark used in some traditional remedies.",
       "wood_quality": "Soft, spongy wood, not commercially valuable as timber.",
       "flowering_season": "February to April",
-      "fun_fact": "Its flowers are the traditional source of the natural orange-red colour once used in Holi celebrations."
+      "fun_fact": "Its flowers are the traditional source of the natural orange-red colour once used in Holi celebrations.",
+      "common_name_hi": "पलाश"
     },
     {
       "id": "shisham",
@@ -384,9 +407,10 @@
       "longitude": 72.5726,
       "description": "A medium to large deciduous tree with a light, airy canopy, widely planted along roads and canal banks.",
       "uses": "Grown mainly for its valuable timber; leaves sometimes used as fodder.",
-      "wood_quality": "One of India's most prized timbers \u2014 strong, richly grained, and widely used in furniture making.",
+      "wood_quality": "One of India's most prized timbers — strong, richly grained, and widely used in furniture making.",
       "flowering_season": "March to April",
-      "fun_fact": "Shisham furniture is a mainstay of Indian carpentry and is often exported internationally."
+      "fun_fact": "Shisham furniture is a mainstay of Indian carpentry and is often exported internationally.",
+      "common_name_hi": "शीशम"
     },
     {
       "id": "khejri",
@@ -402,7 +426,8 @@
       "uses": "Pods (sangri) used in traditional desert cuisine; leaves used as fodder during droughts; considered central to desert ecology and livelihoods.",
       "wood_quality": "Hard, durable wood, used for farm tools, fuelwood, and construction in arid regions.",
       "flowering_season": "March to May",
-      "fun_fact": "It's the state tree of Rajasthan and central to the story of the Chipko-like Khejarli sacrifice in 1730."
+      "fun_fact": "It's the state tree of Rajasthan and central to the story of the Chipko-like Khejarli sacrifice in 1730.",
+      "common_name_hi": "खेजड़ी"
     },
     {
       "id": "babul",
@@ -418,7 +443,8 @@
       "uses": "Bark and gum traditionally used in tanning and some remedies; twigs traditionally used as a natural toothbrush.",
       "wood_quality": "Very hard, durable wood, used for tool handles, fencing, and fuelwood.",
       "flowering_season": "August to September",
-      "fun_fact": "Its gum (gum arabic-like resin) has traditionally been used as a natural adhesive and thickener."
+      "fun_fact": "Its gum (gum arabic-like resin) has traditionally been used as a natural adhesive and thickener.",
+      "common_name_hi": "बबूल"
     },
     {
       "id": "casuarina",
@@ -434,7 +460,8 @@
       "uses": "Widely planted as a windbreak and to stabilise coastal soil; wood used as fuelwood and pulp.",
       "wood_quality": "Hard, dense wood, but not typically used for fine furniture.",
       "flowering_season": "Inconspicuous flowers through much of the year",
-      "fun_fact": "Despite looking like a pine, it isn't a conifer at all \u2014 it's a flowering plant."
+      "fun_fact": "Despite looking like a pine, it isn't a conifer at all — it's a flowering plant.",
+      "common_name_hi": "सरू"
     },
     {
       "id": "eucalyptus",
@@ -450,7 +477,8 @@
       "uses": "Leaves and oil used in traditional decongestant remedies; wood used for pulp, plywood, and construction poles.",
       "wood_quality": "Moderately hard, fast-grown wood, mainly valued for pulp and construction rather than fine furniture.",
       "flowering_season": "Varies by species and region, often winter to spring",
-      "fun_fact": "Its strong-smelling oil is a common ingredient in cold and cough balms."
+      "fun_fact": "Its strong-smelling oil is a common ingredient in cold and cough balms.",
+      "common_name_hi": "नीलगिरी"
     },
     {
       "id": "amaltas",
@@ -467,7 +495,8 @@
       "uses_note": null,
       "wood_quality": "Hard, durable wood, occasionally used for tool handles and construction posts.",
       "flowering_season": "March to June",
-      "fun_fact": "It's the national flower of Thailand and the state flower of Kerala."
+      "fun_fact": "It's the national flower of Thailand and the state flower of Kerala.",
+      "common_name_hi": "अमलतास"
     }
   ]
 }
