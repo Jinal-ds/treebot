@@ -1,13 +1,10 @@
 """
-PostgreSQL access layer — connection pool, schema setup, seeding, and queries.
+Database connection layer — pool lifecycle, schema creation, and seeding.
 
-Two tables:
-- trees: permanent tree data (seeded once from trees_data.json)
-- sessions: one row per visitor session, holding their chat history as JSONB
-
-Why asyncpg directly (no ORM): keeps this dependency-light and lets FastAPI's
-async event loop actually benefit from non-blocking database calls, consistent
-with the async-first choice made for the rest of this app.
+This file only owns *connecting to* and *initializing* Postgres. Runtime
+queries used by request handlers live in repository.py instead — that split
+keeps "how do we get a connection and what does the schema look like" (this
+file) separate from "what do we ask the database for" (repository.py).
 """
 
 import json
@@ -32,6 +29,7 @@ async def init_pool() -> asyncpg.Pool:
     await _create_schema()
     await _seed_if_empty()
     await _shorten_existing_teasers()
+    await _backfill_hindi_names()
     return _pool
 
 
@@ -54,6 +52,7 @@ async def _create_schema():
                 id TEXT PRIMARY KEY,
                 common_name_en TEXT NOT NULL,
                 common_name_gu TEXT,
+                common_name_hi TEXT,
                 botanical_name TEXT,
                 family TEXT,
                 native_status TEXT,
@@ -80,6 +79,9 @@ async def _create_schema():
         )
         await conn.execute(
             "ALTER TABLE trees ADD COLUMN IF NOT EXISTS qr_url TEXT;"
+        )
+        await conn.execute(
+            "ALTER TABLE trees ADD COLUMN IF NOT EXISTS common_name_hi TEXT;"
         )
         await conn.execute("ALTER TABLE trees DROP COLUMN IF EXISTS uses;")
         await conn.execute("ALTER TABLE trees DROP COLUMN IF EXISTS wood_quality;")
@@ -123,17 +125,17 @@ async def _seed_if_empty():
         rows = data["trees"]
         await conn.executemany(
             """
-            INSERT INTO trees (id, common_name_en, common_name_gu, botanical_name, family,
-                                native_status, area_name, latitude, longitude, description,
-                                flowering_season)
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+            INSERT INTO trees (id, common_name_en, common_name_gu, common_name_hi,
+                                botanical_name, family, native_status, area_name,
+                                latitude, longitude, description, flowering_season)
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
             ON CONFLICT (id) DO NOTHING;
             """,
             [
                 (
-                    t["id"], t["common_name_en"], t["common_name_gu"], t["botanical_name"],
-                    t["family"], t["native_status"], t["area_name"], t["latitude"],
-                    t["longitude"], _short_teaser(t["description"]), t["flowering_season"],
+                    t["id"], t["common_name_en"], t["common_name_gu"], t.get("common_name_hi"),
+                    t["botanical_name"], t["family"], t["native_status"], t["area_name"],
+                    t["latitude"], t["longitude"], _short_teaser(t["description"]), t["flowering_season"],
                 )
                 for t in rows
             ],
@@ -144,8 +146,8 @@ async def _shorten_existing_teasers():
     """_seed_if_empty only runs against an empty table, so a database seeded
     before the teaser-shortening rule existed never had it applied. Run this
     unconditionally on every startup (same 'always resync' precedent as
-    refresh_qr_urls) so already-seeded rows catch up too. Idempotent: applying
-    _short_teaser to an already-short teaser just returns it unchanged."""
+    repository.refresh_qr_urls) so already-seeded rows catch up too. Idempotent:
+    applying _short_teaser to an already-short teaser just returns it unchanged."""
     async with get_pool().acquire() as conn:
         rows = await conn.fetch("SELECT id, description FROM trees;")
         for row in rows:
@@ -158,111 +160,23 @@ async def _shorten_existing_teasers():
                 )
 
 
-async def list_trees():
+async def _backfill_hindi_names():
+    """Same reasoning as _shorten_existing_teasers: common_name_hi was added
+    after this database was first seeded, so existing rows never got it.
+    Backfill from trees_data.json on every startup; a no-op once every row
+    already has a value."""
     async with get_pool().acquire() as conn:
-        rows = await conn.fetch(
-            "SELECT id, common_name_en, common_name_gu FROM trees ORDER BY common_name_en;"
+        missing = await conn.fetch(
+            "SELECT id FROM trees WHERE common_name_hi IS NULL;"
         )
-        return [dict(r) for r in rows]
-
-
-async def get_tree(tree_id: str) -> Optional[dict]:
-    async with get_pool().acquire() as conn:
-        row = await conn.fetchrow("SELECT * FROM trees WHERE id = $1;", tree_id)
-        return dict(row) if row else None
-
-
-async def all_trees() -> list:
-    async with get_pool().acquire() as conn:
-        rows = await conn.fetch("SELECT * FROM trees;")
-        return [dict(r) for r in rows]
-
-
-async def get_or_create_session(session_id: str, tree_id: str) -> dict:
-    async with get_pool().acquire() as conn:
-        row = await conn.fetchrow(
-            "SELECT * FROM sessions WHERE session_id = $1;", session_id
-        )
-        if row:
-            if row["tree_id"] != tree_id:
-                # Visitor switched to a different tree under the same browser session —
-                # start a fresh conversation for the new tree.
+        if not missing:
+            return
+        with open(SEED_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        hindi_by_id = {t["id"]: t.get("common_name_hi") for t in data["trees"]}
+        for row in missing:
+            hi_name = hindi_by_id.get(row["id"])
+            if hi_name:
                 await conn.execute(
-                    """
-                    UPDATE sessions
-                    SET tree_id = $2, chat_json = '[]'::jsonb, last_active_at = now()
-                    WHERE session_id = $1;
-                    """,
-                    session_id, tree_id,
+                    "UPDATE trees SET common_name_hi = $1 WHERE id = $2;", hi_name, row["id"]
                 )
-                return {"session_id": session_id, "tree_id": tree_id, "chat_json": []}
-            return {
-                "session_id": row["session_id"],
-                "tree_id": row["tree_id"],
-                "chat_json": json.loads(row["chat_json"]),
-            }
-        await conn.execute(
-            "INSERT INTO sessions (session_id, tree_id) VALUES ($1, $2);",
-            session_id, tree_id,
-        )
-        return {"session_id": session_id, "tree_id": tree_id, "chat_json": []}
-
-
-async def refresh_qr_urls(base_url: str):
-    """Recompute each tree's QR target link from the current BASE_URL. Safe to
-    run on every startup — cheap, idempotent, and keeps links correct if the
-    app moves between localhost and a deployed URL."""
-    async with get_pool().acquire() as conn:
-        await conn.execute(
-            "UPDATE trees SET qr_url = $1 || '/t/' || id;",
-            base_url.rstrip("/"),
-        )
-
-
-async def log_scan(tree_id: str, user_agent: Optional[str], referrer: Optional[str]):
-    async with get_pool().acquire() as conn:
-        await conn.execute(
-            "INSERT INTO qr_scans (tree_id, user_agent, referrer) VALUES ($1, $2, $3);",
-            tree_id, user_agent, referrer,
-        )
-
-
-async def get_scan_counts() -> list:
-    """Per-tree scan analytics: total scans and last-scanned time, trees with
-    zero scans included so new/unscanned trees are still visible."""
-    async with get_pool().acquire() as conn:
-        rows = await conn.fetch(
-            """
-            SELECT
-                t.id AS tree_id,
-                t.common_name_en,
-                t.common_name_gu,
-                t.qr_url,
-                COUNT(s.id) AS scan_count,
-                MAX(s.scanned_at) AS last_scanned_at
-            FROM trees t
-            LEFT JOIN qr_scans s ON s.tree_id = t.id
-            GROUP BY t.id, t.common_name_en, t.common_name_gu, t.qr_url
-            ORDER BY scan_count DESC, t.common_name_en ASC;
-            """
-        )
-        return [dict(r) for r in rows]
-
-
-async def append_turn(session_id: str, user_message: str, assistant_reply: str):
-    async with get_pool().acquire() as conn:
-        await conn.execute(
-            """
-            UPDATE sessions
-            SET chat_json = chat_json || $2::jsonb,
-                last_active_at = now()
-            WHERE session_id = $1;
-            """,
-            session_id,
-            json.dumps(
-                [
-                    {"role": "user", "content": user_message},
-                    {"role": "assistant", "content": assistant_reply},
-                ]
-            ),
-        )
