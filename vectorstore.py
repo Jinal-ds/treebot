@@ -80,12 +80,19 @@ def load_knowledge_files() -> list:
     return files
 
 
+UPSERT_BATCH_SIZE = 16  # keeps each embedding batch small so startup memory stays under Render's free-tier 512MB cap
+
+
 def sync_knowledge():
     """Rebuild the tree_knowledge collection from knowledge/*.json on every
     startup (mirrors db.refresh_qr_urls's "always resync" approach, unlike the
     old seed-once behaviour this replaces). Uses deterministic IDs and
     collection.upsert(), so edited/added chunks are reflected on next restart
-    with no manual cache-clearing, and re-running is always safe."""
+    with no manual cache-clearing, and re-running is always safe.
+
+    Upserts happen in small batches (not one call with every chunk) — embedding
+    everything at once spikes memory enough to OOM on Render's free 512MB
+    instance once there are 100+ real knowledge chunks."""
     collection = get_collection()
     files = load_knowledge_files()
 
@@ -104,8 +111,9 @@ def sync_knowledge():
                     "url": chunk.get("url") or "",
                 })
 
-    if ids:
-        collection.upsert(ids=ids, documents=documents, metadatas=metadatas)
+    for start in range(0, len(ids), UPSERT_BATCH_SIZE):
+        end = start + UPSERT_BATCH_SIZE
+        collection.upsert(ids=ids[start:end], documents=documents[start:end], metadatas=metadatas[start:end])
 
 
 def retrieve_tree_chunks(query: str, tree_id: str, top_k: int = 6):
