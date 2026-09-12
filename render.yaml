@@ -1,0 +1,22 @@
+databases:
+  - name: treebot-db
+    plan: free
+    databaseName: treebot
+    user: treebot
+
+services:
+  - type: web
+    name: tree-chatbot
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: HF_TOKEN
+        sync: false
+      - key: HF_MODEL
+        value: meta-llama/Llama-3.1-8B-Instruct
+      - key: DATABASE_URL
+        fromDatabase:
+          name: treebot-db
+          property: connectionString
