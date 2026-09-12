@@ -26,7 +26,7 @@ from pydantic import BaseModel
 import db
 import vectorstore
 
-load_dotenv()
+load_dotenv(override=True)  # .env always wins locally, even if a shell session has a blank/stale var set
 
 BASE_DIR = os.path.dirname(__file__)
 
@@ -39,15 +39,15 @@ HF_ROUTER_URL = "https://router.huggingface.co/v1/chat/completions"
 # production) — override via env when deploying.
 BASE_URL = os.environ.get("BASE_URL", "http://localhost:8000")
 
-RETRIEVAL_TOP_K = 3
+CURRENT_TREE_TOP_K = 6
+OTHER_TREES_TOP_K = 3
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await db.init_pool()
     vectorstore.init_store()
-    trees = await db.all_trees()
-    vectorstore.seed_if_empty(trees)
+    vectorstore.sync_knowledge()
     await db.refresh_qr_urls(BASE_URL)
     yield
     await db.close_pool()
@@ -72,7 +72,12 @@ class ChatResponse(BaseModel):
     reply: str
 
 
-def build_system_prompt(tree: dict, retrieved: List[tuple]) -> str:
+def build_system_prompt(tree: dict, own_chunks: List[tuple], retrieved: List[tuple]) -> str:
+    if own_chunks:
+        own_block = "\n".join(f"- (source: {meta['source']}) {doc}" for meta, doc in own_chunks)
+    else:
+        own_block = "(no additional knowledge chunks found for this tree yet)"
+
     if retrieved:
         others_block = "\n".join(f"- {meta['common_name_en']}: {doc}" for meta, doc in retrieved)
     else:
@@ -80,18 +85,18 @@ def build_system_prompt(tree: dict, retrieved: List[tuple]) -> str:
 
     return f"""You are a friendly, knowledgeable botanical guide stationed physically at ONE specific tree in a park: the {tree['common_name_en']} ({tree['botanical_name']}).
 
-Here is everything you know about THIS tree:
+Here are the core facts you know about THIS tree:
 - English name: {tree['common_name_en']}
 - Gujarati name: {tree['common_name_gu']}
 - Botanical name: {tree['botanical_name']}
 - Family: {tree['family']}
 - Native status: {tree['native_status']}
 - Location: {tree['area_name']} (lat {tree['latitude']}, long {tree['longitude']})
-- Description: {tree['description']}
-- Uses: {tree['uses']}
-- Wood quality: {tree['wood_quality']}
 - Flowering season: {tree['flowering_season']}
-- Fun fact: {tree['fun_fact']}
+- Short description: {tree['description']}
+
+Here is additional detailed knowledge about THIS tree, collected from various sources — you may mention the source (e.g. "According to {{source}}...") if the visitor asks where a fact comes from:
+{own_block}
 
 The visitor's question was used to search our tree database, and these OTHER trees came back as potentially relevant (use them ONLY if the visitor is asking to compare, otherwise ignore them):
 {others_block}
@@ -153,8 +158,9 @@ async def chat(tree_id: str, req: ChatRequest):
         raise HTTPException(status_code=404, detail=f"No tree with id '{tree_id}'")
 
     session = await db.get_or_create_session(req.session_id, tree_id)
-    retrieved = vectorstore.retrieve_related_trees(req.message, exclude_tree_id=tree_id, top_k=RETRIEVAL_TOP_K)
-    system_prompt = build_system_prompt(tree, retrieved)
+    own_chunks = vectorstore.retrieve_tree_chunks(req.message, tree_id, top_k=CURRENT_TREE_TOP_K)
+    retrieved = vectorstore.retrieve_related_trees(req.message, exclude_tree_id=tree_id, top_k=OTHER_TREES_TOP_K)
+    system_prompt = build_system_prompt(tree, own_chunks, retrieved)
 
     reply = await call_llm(system_prompt, session["chat_json"], req.message)
     await db.append_turn(req.session_id, req.message, reply)

@@ -31,6 +31,7 @@ async def init_pool() -> asyncpg.Pool:
     _pool = await asyncpg.create_pool(DATABASE_URL, min_size=1, max_size=5)
     await _create_schema()
     await _seed_if_empty()
+    await _shorten_existing_teasers()
     return _pool
 
 
@@ -59,11 +60,8 @@ async def _create_schema():
                 area_name TEXT,
                 latitude DOUBLE PRECISION,
                 longitude DOUBLE PRECISION,
-                description TEXT,
-                uses TEXT,
-                wood_quality TEXT,
-                flowering_season TEXT,
-                fun_fact TEXT
+                description TEXT,  -- short 1-2 sentence teaser only; full narrative content lives in ChromaDB (see knowledge/)
+                flowering_season TEXT
             );
             """
         )
@@ -83,6 +81,9 @@ async def _create_schema():
         await conn.execute(
             "ALTER TABLE trees ADD COLUMN IF NOT EXISTS qr_url TEXT;"
         )
+        await conn.execute("ALTER TABLE trees DROP COLUMN IF EXISTS uses;")
+        await conn.execute("ALTER TABLE trees DROP COLUMN IF EXISTS wood_quality;")
+        await conn.execute("ALTER TABLE trees DROP COLUMN IF EXISTS fun_fact;")
         await conn.execute(
             """
             CREATE TABLE IF NOT EXISTS qr_scans (
@@ -102,6 +103,16 @@ async def _create_schema():
         )
 
 
+def _short_teaser(description: str) -> str:
+    """Trim a long placeholder description down to its first sentence, so the
+    Postgres 'description' column reads as a short teaser immediately, without
+    waiting on trees_data.json to be hand-edited. The full text still lives on
+    in trees_data.json (used by the knowledge-stub migration script) and can
+    be hand-improved here later — this is just a sane automatic default."""
+    first_sentence = description.split(". ")[0].strip().rstrip(".")
+    return f"{first_sentence}."
+
+
 async def _seed_if_empty():
     async with get_pool().acquire() as conn:
         count = await conn.fetchval("SELECT count(*) FROM trees;")
@@ -114,20 +125,37 @@ async def _seed_if_empty():
             """
             INSERT INTO trees (id, common_name_en, common_name_gu, botanical_name, family,
                                 native_status, area_name, latitude, longitude, description,
-                                uses, wood_quality, flowering_season, fun_fact)
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
+                                flowering_season)
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
             ON CONFLICT (id) DO NOTHING;
             """,
             [
                 (
                     t["id"], t["common_name_en"], t["common_name_gu"], t["botanical_name"],
                     t["family"], t["native_status"], t["area_name"], t["latitude"],
-                    t["longitude"], t["description"], t["uses"], t["wood_quality"],
-                    t["flowering_season"], t["fun_fact"],
+                    t["longitude"], _short_teaser(t["description"]), t["flowering_season"],
                 )
                 for t in rows
             ],
         )
+
+
+async def _shorten_existing_teasers():
+    """_seed_if_empty only runs against an empty table, so a database seeded
+    before the teaser-shortening rule existed never had it applied. Run this
+    unconditionally on every startup (same 'always resync' precedent as
+    refresh_qr_urls) so already-seeded rows catch up too. Idempotent: applying
+    _short_teaser to an already-short teaser just returns it unchanged."""
+    async with get_pool().acquire() as conn:
+        rows = await conn.fetch("SELECT id, description FROM trees;")
+        for row in rows:
+            if not row["description"]:
+                continue
+            short = _short_teaser(row["description"])
+            if short != row["description"]:
+                await conn.execute(
+                    "UPDATE trees SET description = $1 WHERE id = $2;", short, row["id"]
+                )
 
 
 async def list_trees():
