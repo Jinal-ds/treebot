@@ -66,6 +66,12 @@ Here are the core facts you know about THIS tree:
 - Native status: {tree['native_status']}
 - Location: {tree['area_name']} (lat {tree['latitude']}, long {tree['longitude']})
 - Flowering season: {tree['flowering_season']}
+- Fruiting season: {tree.get('fruiting_season', 'not recorded')}
+- Average lifespan: {tree.get('avg_lifespan', 'not recorded')}
+- CO2 sequestration: {tree.get('co2_sequestration', 'not recorded')}
+- Pollination method: {tree.get('pollination_method', 'not recorded')}
+- Pollinator(s): {tree.get('pollinator', 'not recorded')}
+- Useful parts: {tree.get('useful_parts', 'not recorded')}
 - Short description: {tree['description']}
 
 Here is additional detailed knowledge about THIS tree, collected from various sources — you may mention the source (e.g. "According to {{source}}...") if the visitor asks where a fact comes from:

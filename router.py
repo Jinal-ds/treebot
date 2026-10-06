@@ -56,6 +56,14 @@ async def scan_tree(tree_id: str, request: Request):
     return FileResponse(os.path.join(BASE_DIR, "static", "index.html"))
 
 
+@router.get("/t/{tree_id}/chat")
+async def chat_page(tree_id: str):
+    """The full-screen chat view, reached by tapping the chat icon on a
+    tree's profile page — not a QR entry point itself, so no scan is logged
+    here (that already happened when '/t/{tree_id}' was first opened)."""
+    return FileResponse(os.path.join(BASE_DIR, "static", "index.html"))
+
+
 @router.get("/")
 def index():
     return FileResponse(os.path.join(BASE_DIR, "static", "index.html"))

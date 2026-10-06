@@ -21,6 +21,7 @@
     --font-body: -apple-system, "Segoe UI", Roboto, sans-serif;
   }
   * { box-sizing: border-box; }
+  html, body { height: 100%; }
   body {
     margin: 0;
     font-family: var(--font-body);
@@ -60,18 +61,16 @@
   .lang-switch button.active { background: white; color: var(--forest-dark); font-weight: 700; }
 
   .wrap {
-    max-width: 640px;
+    max-width: 680px;
     margin: 0 auto;
-    padding: 16px 16px 32px;
+    padding: 0 16px 90px;
   }
 
   .icon { width: 16px; height: 16px; vertical-align: -3px; margin-right: 6px; flex-shrink: 0; }
 
   @keyframes riseIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* ---- ambient floating leaves, inside the hero card so they're always
-     visible regardless of viewport width (most visitors are on phones,
-     where the content fills the screen and leaves no background gutter) ---- */
+  /* ---- ambient floating leaves, inside the hero so they're always visible ---- */
   .hero .leafField {
     position: absolute;
     inset: 0;
@@ -92,20 +91,6 @@
     100% { transform: translate(-3%, -50%) rotate(-15deg); }
   }
 
-  /* ---- decorative canopy silhouette behind the hero ---- */
-  .hero { position: relative; overflow: hidden; }
-  .hero .canopy {
-    position: absolute;
-    top: -20%;
-    right: -15%;
-    width: 70%;
-    height: 140%;
-    color: white;
-    opacity: 0.12;
-    pointer-events: none;
-  }
-  .hero > * { position: relative; z-index: 1; }
-
   /* ---- dev picker (only shown at "/" with no tree selected) ---- */
   .picker-note {
     background: #fff8e1;
@@ -114,7 +99,7 @@
     border-radius: 10px;
     padding: 10px 14px;
     font-size: 13px;
-    margin-bottom: 16px;
+    margin: 16px 0;
   }
   .tree-grid {
     display: grid;
@@ -141,26 +126,45 @@
   .tree-grid a .name { font-family: var(--font-display); font-weight: 600; color: var(--forest); font-size: 15px; }
   .tree-grid a .gu { font-size: 12.5px; color: var(--muted); }
 
-  /* ---- tree profile ---- */
+  /* ---- tree profile: hero (image or gradient) ---- */
   .hero {
-    background: linear-gradient(135deg, var(--forest), var(--forest-dark));
+    position: relative;
+    overflow: hidden;
     color: white;
-    border-radius: 16px;
-    padding: 22px 22px 20px;
-    margin-bottom: 14px;
+    border-radius: 0 0 20px 20px;
+    margin: 0 -16px 14px;
     animation: riseIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
-  .hero h1 { margin: 0 0 2px 0; font-size: 26px; font-family: var(--font-display); font-weight: 600; font-optical-sizing: auto; }
-  .hero .gu-name { font-size: 15px; opacity: 0.85; margin-bottom: 6px; }
-  .hero .botanical { font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 14px; opacity: 0.8; }
+  .hero .bg {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    display: block;
+    background: linear-gradient(135deg, var(--forest), var(--forest-dark));
+  }
+  .hero .scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.0) 35%, rgba(0,0,0,0.55) 100%);
+  }
+  .hero .content {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 18px 20px 16px;
+  }
+  .hero h1 { margin: 0 0 2px 0; font-size: 25px; font-family: var(--font-display); font-weight: 600; font-optical-sizing: auto; text-shadow: 0 1px 6px rgba(0,0,0,0.35); }
+  .hero .gu-name { font-size: 14.5px; opacity: 0.9; margin-bottom: 4px; }
+  .hero .botanical { font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 13.5px; opacity: 0.85; }
   .hero .badge {
     display: inline-block;
-    margin-top: 10px;
-    background: rgba(255,255,255,0.15);
+    margin-top: 8px;
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(2px);
     border-radius: 999px;
     padding: 4px 12px;
-    font-size: 12px;
+    font-size: 11.5px;
   }
+  .hero.no-image .bg { height: 150px; }
 
   .card {
     background: white;
@@ -179,51 +183,70 @@
     color: var(--forest);
     margin: 0 0 10px 0;
   }
-  .desc { font-size: 14.5px; line-height: 1.55; }
+  .desc { font-size: 14px; line-height: 1.5; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
 
   .fact-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px 18px;
-    font-size: 13.5px;
+    gap: 13px 16px;
+    font-size: 13px;
   }
   .fact-grid .item { border-radius: 8px; padding: 4px 6px; margin: -4px -6px; transition: background-color 0.15s ease; }
   .fact-grid .item:hover { background: var(--moss-light); }
-  .fact-grid .item .k { color: var(--muted); font-size: 12px; display: flex; align-items: center; }
-  .fact-grid .item .v { font-weight: 600; margin-top: 1px; }
+  .fact-grid .item .k { color: var(--muted); font-size: 11.5px; display: flex; align-items: center; }
+  .fact-grid .item .v { font-weight: 600; margin-top: 1px; line-height: 1.35; }
 
-  /* ---- chat call-to-action band ---- */
-  .chat-cta {
-    display: flex; align-items: center; gap: 8px; justify-content: center;
-    flex-wrap: wrap; text-align: center;
-    color: white;
-    background: linear-gradient(90deg, var(--forest), var(--forest-dark));
-    border-radius: 20px; padding: 12px 18px; font-size: 13px; font-weight: 600;
-    margin: -6px 0 14px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
-    animation: riseIn 0.5s cubic-bezier(0.16,1,0.3,1) 280ms both;
-  }
-
-  /* ---- chat ---- */
-  .chat-card {
-    display: flex;
-    flex-direction: column;
-    height: 480px;
-    padding: 0;
-    overflow: hidden;
-    animation-delay: 240ms;
-  }
-  .chat-header {
-    background: var(--forest);
-    color: white;
-    padding: 14px 18px;
-    font-weight: 600;
-    font-size: 15.5px;
-    font-family: var(--font-display);
+  /* ---- floating chat button (opens the full chat page) ---- */
+  .chat-fab {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    z-index: 5;
+    animation: riseIn 0.4s cubic-bezier(0.16,1,0.3,1) 300ms both, fabPulse 2.6s ease-in-out infinite 1.2s;
+    transition: transform 0.15s ease;
   }
+  .chat-fab:hover { transform: scale(1.06); }
+  .chat-fab:active { transform: scale(0.97); }
+  .chat-fab svg { width: 26px; height: 26px; }
+  @keyframes fabPulse {
+    0%, 100% { box-shadow: 0 6px 18px rgba(0,0,0,0.25), 0 0 0 0 rgba(44,95,45,0.35); }
+    50% { box-shadow: 0 6px 18px rgba(0,0,0,0.25), 0 0 0 10px rgba(44,95,45,0); }
+  }
+
+  /* ---- full-screen chat page ---- */
+  .chat-page {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    background: #f6f8f5;
+  }
+  .chat-page-header {
+    color: white;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .chat-page-header .back {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    color: white; text-decoration: none;
+    flex-shrink: 0;
+  }
+  .chat-page-header .title { font-family: var(--font-display); font-size: 16px; font-weight: 600; flex: 1; }
   .messages {
     flex: 1;
     overflow-y: auto;
@@ -233,7 +256,7 @@
     gap: 10px;
   }
   .msg {
-    max-width: 80%;
+    max-width: 82%;
     padding: 9px 13px;
     border-radius: 12px;
     font-size: 14px;
@@ -272,8 +295,10 @@
   .input-row {
     display: flex;
     border-top: 1px solid var(--line);
+    background: white;
     padding: 10px;
     gap: 8px;
+    flex-shrink: 0;
   }
   .input-row input {
     flex: 1;
@@ -313,7 +338,7 @@
     0%, 100% { box-shadow: 0 0 0 0 rgba(192,57,43,0.35); }
     50% { box-shadow: 0 0 0 6px rgba(192,57,43,0); }
   }
-  .hint { font-size: 12px; color: var(--muted); padding: 6px 16px 12px; }
+  .hint { font-size: 12px; color: var(--muted); padding: 8px 16px; text-align: center; background: white; flex-shrink: 0; }
 
   .loading { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 40px 0; color: var(--muted); }
   @keyframes leafSway { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
@@ -344,7 +369,6 @@
 
 <script>
   let currentTreeId = null;
-  let currentTree = null;
 
   function getOrCreateSessionId() {
     let id = localStorage.getItem("treebot_session_id");
@@ -363,36 +387,42 @@
 
   const UI = {
     en: {
-      brand: "Tree Guide", about: "About this tree", quickFacts: "Quick facts",
-      location: "Location", flowering: "Flowering season", coordinates: "Coordinates",
-      askAbout: "Ask about the ", cta: "Have a question? Just ask below — I know this tree inside out.",
+      brand: "Tree Guide", about: "About this tree", quickFacts: "Tree facts",
+      location: "Location", flowering: "Flowering season", fruiting: "Fruiting season",
+      coordinates: "Coordinates", lifespan: "Avg. lifespan", co2: "CO2 sequestration",
+      pollinationMethod: "Pollination method", pollinator: "Pollinator(s)", usefulParts: "Useful parts",
+      askAbout: "Ask about the ", chatFabLabel: "Chat about this tree",
       placeholder: "e.g. What are the uses of its fruit?",
       hint: 'Try comparing trees, e.g. "How does this compare to a banyan tree?"',
-      loading: "Loading…", send: "Send",
+      loading: "Loading…", send: "Send", back: "Back to tree",
       pickerNote: 'This is a dev preview list — real visitors reach a tree by scanning its QR code, which links straight to <code>/t/&lt;tree-id&gt;</code>. Selecting a tree below opens that same link.',
       greeting: (name) => `Hi! I'm the guide for this ${name} tree. Ask me anything about it — its uses, wood, origin, or how it compares to another tree in the park.`,
       notFound: (id) => `Couldn't find this tree (id: ${id}).`,
       networkError: "Network error — is the server running?",
     },
     gu: {
-      brand: "વૃક્ષ માર્ગદર્શિકા", about: "આ વૃક્ષ વિશે", quickFacts: "ઝડપી માહિતી",
-      location: "સ્થળ", flowering: "ફૂલોની ઋતુ", coordinates: "કોઓર્ડિનેટ્સ",
-      askAbout: "વિશે પૂછો: ", cta: "કોઈ પ્રશ્ન છે? નીચે પૂછો — હું આ વૃક્ષ વિશે બધું જાણું છું.",
+      brand: "વૃક્ષ માર્ગદર્શિકા", about: "આ વૃક્ષ વિશે", quickFacts: "વૃક્ષની માહિતી",
+      location: "સ્થળ", flowering: "ફૂલોની ઋતુ", fruiting: "ફળની ઋતુ",
+      coordinates: "કોઓર્ડિનેટ્સ", lifespan: "સરેરાશ આયુષ્ય", co2: "CO2 શોષણ",
+      pollinationMethod: "પરાગનયન પદ્ધતિ", pollinator: "પરાગનયક", usefulParts: "ઉપયોગી ભાગો",
+      askAbout: "વિશે પૂછો: ", chatFabLabel: "આ વૃક્ષ વિશે ચેટ કરો",
       placeholder: "દા.ત. તેના ફળના ઉપયોગો શું છે?",
       hint: 'વૃક્ષોની સરખામણી કરી જુઓ, દા.ત. "આ વડ સાથે કેવી રીતે સરખાવાય છે?"',
-      loading: "લોડ થઈ રહ્યું છે…", send: "મોકલો",
+      loading: "લોડ થઈ રહ્યું છે…", send: "મોકલો", back: "વૃક્ષ પર પાછા",
       pickerNote: 'આ ડેવલપર પ્રીવ્યુ યાદી છે — વાસ્તવિક મુલાકાતીઓ QR કોડ સ્કેન કરીને વૃક્ષ સુધી પહોંચે છે. નીચે વૃક્ષ પસંદ કરવાથી એ જ લિંક ખુલશે.',
       greeting: (name) => `નમસ્તે! હું આ ${name} વૃક્ષનો માર્ગદર્શક છું. તેના ઉપયોગો, લાકડું, મૂળ અથવા ઉદ્યાનના અન્ય વૃક્ષ સાથે સરખામણી વિશે કંઈપણ પૂછો.`,
       notFound: (id) => `આ વૃક્ષ મળ્યું નથી (id: ${id}).`,
       networkError: "નેટવર્ક ભૂલ — શું સર્વર ચાલુ છે?",
     },
     hi: {
-      brand: "पेड़ मार्गदर्शिका", about: "इस पेड़ के बारे में", quickFacts: "मुख्य जानकारी",
-      location: "स्थान", flowering: "फूल आने का मौसम", coordinates: "निर्देशांक",
-      askAbout: "के बारे में पूछें: ", cta: "कोई सवाल है? नीचे पूछें — मैं इस पेड़ के बारे में सब कुछ जानता हूँ।",
+      brand: "पेड़ मार्गदर्शिका", about: "इस पेड़ के बारे में", quickFacts: "पेड़ की जानकारी",
+      location: "स्थान", flowering: "फूल आने का मौसम", fruiting: "फल आने का मौसम",
+      coordinates: "निर्देशांक", lifespan: "औसत आयु", co2: "CO2 अवशोषण",
+      pollinationMethod: "परागण विधि", pollinator: "परागणकर्ता", usefulParts: "उपयोगी भाग",
+      askAbout: "के बारे में पूछें: ", chatFabLabel: "इस पेड़ के बारे में चैट करें",
       placeholder: "जैसे: इसके फल के क्या उपयोग हैं?",
       hint: 'पेड़ों की तुलना करके देखें, जैसे "यह बरगद से कैसे अलग है?"',
-      loading: "लोड हो रहा है…", send: "भेजें",
+      loading: "लोड हो रहा है…", send: "भेजें", back: "पेड़ पर वापस",
       pickerNote: 'यह एक डेव प्रीव्यू सूची है — असली आगंतुक QR कोड स्कैन करके पेड़ तक पहुँचते हैं। नीचे पेड़ चुनने पर वही लिंक खुलेगा।',
       greeting: (name) => `नमस्ते! मैं इस ${name} पेड़ का मार्गदर्शक हूँ। इसके उपयोग, लकड़ी, मूल, या पार्क के किसी और पेड़ से तुलना के बारे में कुछ भी पूछें।`,
       notFound: (id) => `यह पेड़ नहीं मिला (id: ${id})।`,
@@ -415,7 +445,7 @@
     btn.addEventListener("click", () => {
       setLanguage(btn.dataset.lang);
       renderLangSwitch();
-      if (currentTreeId) renderTreeProfile(currentTreeId); else renderPicker();
+      route();
     });
   });
 
@@ -434,24 +464,8 @@
   }
   function accentFor(id) { return ACCENTS[hashId(String(id)) % ACCENTS.length]; }
 
-  // Three hand-drawn decorative silhouettes for the hero background, picked
-  // deterministically per tree (a different hash multiplier than accentFor,
-  // so shape and color vary independently instead of always pairing up).
-  const CANOPY_SHAPES = [
-    // "canopy" — broad rounded cluster, for wide-crowned trees like banyan/peepal
-    `<path d="M50 10 C20 10 5 35 10 55 C0 65 5 85 25 88 C30 95 45 98 50 92 C55 98 70 95 75 88 C95 85 100 65 90 55 C95 35 80 10 50 10 Z"/>`,
-    // "frond" — radiating fan, for palm-like trees like coconut/casuarina
-    `<path d="M50 95 L50 50 M50 50 L15 20 M50 50 L50 5 M50 50 L85 20 M50 50 L10 55 M50 50 L90 55 M50 50 L20 85 M50 50 L80 85" stroke="currentColor" stroke-width="6" stroke-linecap="round" fill="none"/>`,
-    // "branch" — slender flowering branch with leaf dots, for gulmohar/amaltas/champa
-    `<path d="M50 98 C48 70 55 45 40 15" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/><circle cx="40" cy="15" r="9"/><circle cx="30" cy="35" r="7"/><circle cx="55" cy="30" r="7"/><circle cx="35" cy="60" r="6"/><circle cx="58" cy="55" r="6"/>`,
-  ];
-  function canopyFor(id) {
-    let h = 0;
-    for (let i = 0; i < id.length; i++) h = (h * 17 + id.charCodeAt(i) * 7) >>> 0;
-    return CANOPY_SHAPES[h % CANOPY_SHAPES.length];
-  }
-
   function populateLeafField(field) {
+    if (!field) return;
     const LEAF = `<path d="M10 2 C4 4 3 10 6 15 C8 18 12 18 14 15 C17 10 16 4 10 2 Z"/>`;
     const count = 6;
     for (let i = 0; i < count; i++) {
@@ -475,22 +489,36 @@
   const ICONS = {
     pin: `<svg class="icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 18 C10 18 4 12 4 8 A6 6 0 1 1 16 8 C16 12 10 18 10 18 Z"/><circle cx="10" cy="8" r="2.2"/></svg>`,
     blossom: `<svg class="icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="5.5" r="2.3"/><circle cx="14.5" cy="8.3" r="2.3"/><circle cx="12.8" cy="13.5" r="2.3"/><circle cx="7.2" cy="13.5" r="2.3"/><circle cx="5.5" cy="8.3" r="2.3"/><circle cx="10" cy="10" r="1.3" fill="currentColor" stroke="none"/></svg>`,
+    fruit: `<svg class="icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="12" r="6"/><path d="M10 6 C10 6 10 3 13 2"/></svg>`,
     compass: `<svg class="icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="7.5"/><path d="M10 5 L12 10 L10 15 L8 10 Z" fill="currentColor"/></svg>`,
-    chat: `<svg class="icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3" width="16" height="11" rx="4"/><path d="M6 14 L6 17 L9.5 14 Z" fill="currentColor" stroke="none"/></svg>`,
+    hourglass: `<svg class="icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3 H15 M5 17 H15 M5 3 C5 8 10 8 10 10 C10 12 5 12 5 17 M15 3 C15 8 10 8 10 10 C10 12 15 12 15 17"/></svg>`,
+    cloud: `<svg class="icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15 a3.5 3.5 0 1 1 0.4 -6.98 A4.5 4.5 0 0 1 15 9.4 a3 3 0 0 1 -0.8 5.6 H6 Z"/></svg>`,
+    bee: `<svg class="icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><ellipse cx="10" cy="11.5" rx="4" ry="5"/><path d="M6.3 9.3 H13.7 M6 11.8 H14 M6.6 14.3 H13.4"/><path d="M10 6.2 C8 3.2 5 4.2 6 6.2" /><path d="M10 6.2 C12 3.2 15 4.2 14 6.2" /></svg>`,
+    parts: `<svg class="icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6 H16 M4 10 H16 M4 14 H11"/></svg>`,
+    chat: `<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3" width="16" height="11" rx="4"/><path d="M6 14 L6 17 L9.5 14 Z" fill="currentColor" stroke="none"/></svg>`,
     send: `<svg viewBox="0 0 20 20" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M3 10 L17 3 L11 17 L9 11 L3 10 Z"/></svg>`,
     mic: `<svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="7" y="2" width="6" height="10" rx="3"/><path d="M4 9 a6 6 0 0 0 12 0"/><path d="M10 15 L10 18"/><path d="M7 18 L13 18"/></svg>`,
+    back: `<svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 L6 10 L12 16"/></svg>`,
   };
 
   function pathTreeId() {
     const m = window.location.pathname.match(/^\/t\/([^/]+)$/);
     return m ? decodeURIComponent(m[1]) : null;
   }
+  function pathChatTreeId() {
+    const m = window.location.pathname.match(/^\/t\/([^/]+)\/chat$/);
+    return m ? decodeURIComponent(m[1]) : null;
+  }
   function queryTreeId() {
     return new URLSearchParams(window.location.search).get("tree");
   }
 
-  async function init() {
-    renderLangSwitch();
+  async function route() {
+    const chatTreeId = pathChatTreeId();
+    if (chatTreeId) {
+      await renderChatPage(chatTreeId);
+      return;
+    }
     const treeId = pathTreeId() || queryTreeId();
     if (treeId) {
       await renderTreeProfile(treeId);
@@ -515,50 +543,81 @@
     `;
   }
 
+  function fact(icon, label, value) {
+    if (!value) return "";
+    return `<div class="item"><div class="k">${icon}${label}</div><div class="v">${value}</div></div>`;
+  }
+
   async function renderTreeProfile(treeId) {
     currentTreeId = treeId;
     const res = await fetch(`/api/tree/${treeId}`);
     if (!res.ok) {
-      app.innerHTML = `<div class="card">${t().notFound(treeId)}</div>`;
+      app.innerHTML = `<div class="card" style="margin-top:16px">${t().notFound(treeId)}</div>`;
       return;
     }
     const tree = await res.json();
-    currentTree = tree;
     const a = accentFor(tree.id);
     const lang = getLanguage();
     const secondaryName = lang === "hi" ? (tree.common_name_hi || tree.common_name_gu)
                         : tree.common_name_gu;
+    const hasImage = !!tree.image_url;
+
+    const factsHtml = [
+      fact(ICONS.pin, t().location, tree.area_name),
+      fact(ICONS.compass, t().coordinates, `${tree.latitude}, ${tree.longitude}`),
+      fact(ICONS.blossom, t().flowering, tree.flowering_season),
+      fact(ICONS.fruit, t().fruiting, tree.fruiting_season),
+      fact(ICONS.hourglass, t().lifespan, tree.avg_lifespan),
+      fact(ICONS.cloud, t().co2, tree.co2_sequestration),
+      fact(ICONS.blossom, t().pollinationMethod, tree.pollination_method),
+      fact(ICONS.bee, t().pollinator, tree.pollinator),
+      fact(ICONS.parts, t().usefulParts, tree.useful_parts),
+    ].join("");
 
     app.innerHTML = `
-      <div class="hero" style="background:linear-gradient(135deg, ${a.from}, ${a.to})">
+      <div class="hero ${hasImage ? "" : "no-image"}">
+        ${hasImage
+          ? `<img class="bg" src="${tree.image_url}" alt="${tree.common_name_en}" loading="eager" onerror="const h=this.closest('.hero'); h.classList.add('no-image'); h.style.background='linear-gradient(135deg, ${a.from}, ${a.to})'; this.remove();" />`
+          : `<div class="bg" style="background:linear-gradient(135deg, ${a.from}, ${a.to})"></div>`}
         <div class="leafField" id="leafField"></div>
-        <svg class="canopy" viewBox="0 0 100 100">${canopyFor(tree.id)}</svg>
-        <h1>${tree.common_name_en}</h1>
-        <div class="gu-name">${secondaryName || ""}</div>
-        <div class="botanical">${tree.botanical_name} · ${tree.family}</div>
-        <div class="badge">${tree.native_status}</div>
-      </div>
-
-      <div class="card" style="animation-delay:80ms">
-        <div class="section-title" style="color:${a.from}">${t().about}</div>
-        <div class="desc">${tree.description}</div>
-      </div>
-
-      <div class="card" style="animation-delay:160ms">
-        <div class="section-title" style="color:${a.from}">${t().quickFacts}</div>
-        <div class="fact-grid">
-          <div class="item"><div class="k">${ICONS.pin}${t().location}</div><div class="v">${tree.area_name}</div></div>
-          <div class="item"><div class="k">${ICONS.blossom}${t().flowering}</div><div class="v">${tree.flowering_season}</div></div>
-          <div class="item"><div class="k">${ICONS.compass}${t().coordinates}</div><div class="v">${tree.latitude}, ${tree.longitude}</div></div>
+        <div class="scrim"></div>
+        <div class="content">
+          <h1>${tree.common_name_en}</h1>
+          <div class="gu-name">${secondaryName || ""}</div>
+          <div class="botanical">${tree.botanical_name} · ${tree.family}</div>
+          <div class="badge">${tree.native_status}</div>
         </div>
       </div>
 
-      <div class="chat-cta" style="background:linear-gradient(90deg, ${a.from}, ${a.to})">
-        ${ICONS.chat} ${t().cta}
+      <div class="card">
+        <div class="section-title" style="color:${a.from}">${t().quickFacts}</div>
+        <div class="desc">${tree.description}</div>
+        <div class="fact-grid">${factsHtml}</div>
       </div>
 
-      <div class="card chat-card">
-        <div class="chat-header" id="chatHeader" style="background:${a.from}">${ICONS.chat}${t().askAbout}${tree.common_name_en}</div>
+      <a class="chat-fab" href="/t/${encodeURIComponent(tree.id)}/chat" style="background:linear-gradient(135deg, ${a.from}, ${a.to})" aria-label="${t().chatFabLabel}" title="${t().chatFabLabel}">
+        ${ICONS.chat}
+      </a>
+    `;
+    populateLeafField(document.getElementById("leafField"));
+  }
+
+  async function renderChatPage(treeId) {
+    currentTreeId = treeId;
+    const res = await fetch(`/api/tree/${treeId}`);
+    if (!res.ok) {
+      app.innerHTML = `<div class="card" style="margin-top:16px">${t().notFound(treeId)}</div>`;
+      return;
+    }
+    const tree = await res.json();
+    const a = accentFor(tree.id);
+
+    app.innerHTML = `
+      <div class="chat-page">
+        <div class="chat-page-header" style="background:${a.from}">
+          <a class="back" href="/t/${encodeURIComponent(tree.id)}" title="${t().back}">${ICONS.back}</a>
+          <div class="title">${t().askAbout}${tree.common_name_en}</div>
+        </div>
         <div class="messages" id="messages"></div>
         <div class="input-row">
           <input id="input" type="text" placeholder="${t().placeholder}" />
@@ -568,7 +627,6 @@
         <div class="hint">${t().hint}</div>
       </div>
     `;
-    populateLeafField(document.getElementById("leafField"));
 
     const messagesEl = document.getElementById("messages");
     const input = document.getElementById("input");
@@ -663,9 +721,11 @@
     }
 
     addMessage("bot", t().greeting(tree.common_name_en));
+    input.focus();
   }
 
-  init();
+  renderLangSwitch();
+  route();
 </script>
 </body>
 </html>

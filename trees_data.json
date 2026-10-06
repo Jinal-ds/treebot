@@ -19,7 +19,15 @@
       "wood_quality": "Medium-hard wood, sometimes used for cheap furniture and packing crates, but the tree is grown for fruit, not timber.",
       "flowering_season": "January to March, with fruit ripening April to June",
       "fun_fact": "The mango is India's national fruit, and India is the world's largest producer.",
-      "common_name_hi": "आम"
+      "common_name_hi": "आम",
+      "fruiting_season": "April to June (varies by cultivar; Alphonso April-June, Kesar May-July)",
+      "co2_sequestration": "~30-50 kg CO2/year (estimated; Indian mango-orchard studies found a per-tree range of ~30-78 kg CO2/year, averaging ~50 kg)",
+      "useful_parts": "Fruit, Bark, Leaves, Wood, Seed kernel",
+      "avg_lifespan": "100-300 years (commercially productive for roughly the first 40-80 years)",
+      "pollination_method": "Entomophily (insect-pollinated), with minor wind assistance",
+      "pollinator": "Flies, stingless bees, wasps, ants",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Mango_tree_in_full_bloom_01.jpg/960px-Mango_tree_in_full_bloom_01.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "banyan",
@@ -36,7 +44,15 @@
       "wood_quality": "Soft, not valued as timber; the tree's importance is ecological and cultural, not for wood.",
       "flowering_season": "Produces small figs nearly year-round rather than showy flowers",
       "fun_fact": "India's national tree; a single banyan in Kolkata's botanical garden covers several acres.",
-      "common_name_hi": "बरगद"
+      "common_name_hi": "बरगद",
+      "fruiting_season": "Figs ripen year-round, with a peak around spring",
+      "co2_sequestration": "Estimates vary widely (~25 to 500+ kg CO2/year, estimated) because mature banyans spread via aerial prop roots and can have far greater biomass than a typical single-trunk tree of similar height; ~25-50 kg CO2/year is a reasonable estimate for a young-to-medium specimen",
+      "useful_parts": "Bark, Leaves, Aerial roots, Latex, Fruit (wildlife food), Wood",
+      "avg_lifespan": "200-500 years commonly; some famous individuals (which keep renewing via prop roots) are reported at 1,000+ years",
+      "pollination_method": "Entomophily (obligate fig-wasp mutualism)",
+      "pollinator": "Fig wasp (Eupristina masoni)",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/Banyan_tree_%28Ficus_benghalensis%29.JPG/960px-Banyan_tree_%28Ficus_benghalensis%29.JPG",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "peepal",
@@ -53,7 +69,15 @@
       "wood_quality": "Soft and not commonly used as structural timber.",
       "flowering_season": "Inconspicuous flowers inside its figs, produced through much of the year",
       "fun_fact": "Buddhist tradition holds that Buddha attained enlightenment while sitting under a peepal tree.",
-      "common_name_hi": "पीपल"
+      "common_name_hi": "पीपल",
+      "fruiting_season": "May to June (flowers in February; new leaves in April)",
+      "co2_sequestration": "~20-25 kg CO2/year (estimated for a mature tree; sources range roughly 20-40 kg/year)",
+      "useful_parts": "Bark, Leaves, Fruit, Roots (all used in traditional medicine); heart-shaped leaves also used ceremonially",
+      "avg_lifespan": "900-1,500 years on average; some specimens in native habitats reportedly exceed 3,000 years",
+      "pollination_method": "Entomophily (obligate fig-wasp mutualism)",
+      "pollinator": "Fig wasp (Blastophaga quadraticeps)",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/94/Ficus_religiosa_Bo.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "neem",
@@ -70,7 +94,15 @@
       "wood_quality": "Moderately hard, termite-resistant wood, used in some furniture and construction.",
       "flowering_season": "March to May",
       "fun_fact": "Neem is sometimes called the 'village pharmacy' in rural India for its many traditional uses.",
-      "common_name_hi": "नीम"
+      "common_name_hi": "नीम",
+      "fruiting_season": "June to August (fruit ripens ~12 weeks after flowering; flowering mainly April-May and again August-September in some regions)",
+      "co2_sequestration": "~20-25 kg CO2/year (estimated for a medium-sized tree)",
+      "useful_parts": "Leaves, Bark, Seeds, Oil, Fruit, Twigs",
+      "avg_lifespan": "150-200 years",
+      "pollination_method": "Entomophily (insect-pollinated)",
+      "pollinator": "Honeybees, butterflies",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Azadirachta_indica-Neem_tree.jpg/960px-Azadirachta_indica-Neem_tree.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "gulmohar",
@@ -87,7 +119,15 @@
       "wood_quality": "Soft and brittle; not used as structural timber.",
       "flowering_season": "April to June",
       "fun_fact": "It's called the 'Flame of the Forest' in many countries for how vividly it blooms.",
-      "common_name_hi": "गुलमोहर"
+      "common_name_hi": "गुलमोहर",
+      "fruiting_season": "Pods form after the April-June flowering flush and mature by winter (roughly October to December)",
+      "co2_sequestration": "Species-specific annual rate not well documented; as a fast-growing medium-sized tree, ~20-30 kg CO2/year is a reasonable general estimate (biomass studies do rank Delonix regia among the higher carbon-stock urban trees in India)",
+      "useful_parts": "Wood, Bark, Flowers, Seeds; valued mainly for ornamental shade rather than fruit/timber use",
+      "avg_lifespan": "40-60 years",
+      "pollination_method": "Entomophily (insect-pollinated), with some bird visitation",
+      "pollinator": "Bees, butterflies, sunbirds",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Krishnachura_-_Delonix_regia.jpg/960px-Krishnachura_-_Delonix_regia.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "ashoka",
@@ -104,7 +144,15 @@
       "wood_quality": "Not typically used as timber; valued as an ornamental and sacred tree.",
       "flowering_season": "February to April",
       "fun_fact": "Often confused with the unrelated 'Mast Tree' (Polyalthia longifolia), which is sometimes sold as 'false ashoka.'",
-      "common_name_hi": "अशोक"
+      "common_name_hi": "अशोक",
+      "fruiting_season": "Fruit matures May to July (flowering December to May, peaking February-March)",
+      "co2_sequestration": "Not well documented for this species; as a small-to-medium evergreen tree, ~15-20 kg CO2/year is a reasonable estimate based on general averages for trees of similar size",
+      "useful_parts": "Bark, Flowers, Seeds (used in Ayurvedic medicine); flowers also used ceremonially",
+      "avg_lifespan": "50-100 years (polycarpic, flowering repeatedly through its life)",
+      "pollination_method": "Entomophily (cross-pollinated by insects)",
+      "pollinator": "Bees (including carpenter bees) and other insects attracted to the bright flower colour",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Saraca_asoca-_ashoka_tree-flowers_at_Mangalore_02.jpg/960px-Saraca_asoca-_ashoka_tree-flowers_at_Mangalore_02.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "tamarind",
@@ -121,7 +169,15 @@
       "wood_quality": "Very hard, heavy, and durable wood, used for furniture, tool handles, and wood carving.",
       "flowering_season": "April to June",
       "fun_fact": "A single tamarind tree can live for well over 100 years and keep fruiting.",
-      "common_name_hi": "इमली"
+      "common_name_hi": "इमली",
+      "fruiting_season": "Flowers April to June; pods ripen by winter (roughly December to February)",
+      "co2_sequestration": "~20 kg CO2/year (estimated); one Indian urban-forestry study measured cumulative carbon storage of ~1,667 kg C in a mature tamarind tree",
+      "useful_parts": "Fruit pulp, Seeds, Leaves, Flowers, Bark, Wood",
+      "avg_lifespan": "60-200 years (some specimens reportedly reach 300 years)",
+      "pollination_method": "Entomophily (insect-pollinated)",
+      "pollinator": "Bees, sunbirds",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Tamarind_tree_%28Tamarindus_indica%29.jpg/960px-Tamarind_tree_%28Tamarindus_indica%29.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "jamun",
@@ -138,7 +194,15 @@
       "wood_quality": "Moderately hard, water-resistant wood, sometimes used for well construction and boats.",
       "flowering_season": "March to April, fruiting May to July",
       "fun_fact": "Jamun-stained tongues are a childhood memory for many people who grew up near these trees in India.",
-      "common_name_hi": "जामुन"
+      "common_name_hi": "जामुन",
+      "fruiting_season": "May to June, harvested through the monsoon (June-July)",
+      "co2_sequestration": "Species-specific figure not well documented; as a large, dense-canopy evergreen tree (up to 30 m), ~25-30 kg CO2/year is a reasonable estimate based on similar-sized tree averages",
+      "useful_parts": "Fruit, Seeds, Bark, Leaves, Wood",
+      "avg_lifespan": "Over 100 years",
+      "pollination_method": "Entomophily, with some wind assistance",
+      "pollinator": "Bees, flies, wind",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/Syzygium_cumini_Tree_3.jpg/960px-Syzygium_cumini_Tree_3.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "amla",
@@ -155,7 +219,15 @@
       "wood_quality": "Moderately hard wood, occasionally used for small implements and fuelwood.",
       "flowering_season": "March to May",
       "fun_fact": "Amla is considered one of the richest natural sources of vitamin C among common fruits.",
-      "common_name_hi": "आंवला"
+      "common_name_hi": "आंवला",
+      "fruiting_season": "June to September (ripe fruit can remain on the tree for several months without spoiling)",
+      "co2_sequestration": "Not well documented; as a small-to-medium deciduous tree, ~15-20 kg CO2/year is a reasonable estimate based on general averages for trees of similar size",
+      "useful_parts": "Fruit, Seeds, Leaves, Bark, Roots, Flowers",
+      "avg_lifespan": "Productive fruiting for 50+ years; individual trees can live considerably longer",
+      "pollination_method": "Mixed: Entomophily and Anemophily (both insect- and wind-assisted)",
+      "pollinator": "Bees and other small insects, with some wind pollination",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/bb/Indian_gooseberry_%28Phyllanthus_emblica_syn_Emblica_officinalis%29_new_leaves_at_Jayanti%2C_Duars%2C_West_Bengal_W_Picture_039.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "jackfruit",
@@ -172,7 +244,15 @@
       "wood_quality": "Durable, termite-resistant, golden-hued wood, valued for furniture and musical instruments.",
       "flowering_season": "Flowers most of the year; main fruiting season March to July",
       "fun_fact": "A single jackfruit can weigh over 30 kilograms.",
-      "common_name_hi": "कटहल"
+      "common_name_hi": "कटहल",
+      "fruiting_season": "Summer to early autumn (roughly March to September depending on region); fruit matures 150-180 days after flowering",
+      "co2_sequestration": "Not precisely documented per tree; comparative studies rank jackfruit among the stronger carbon-sequestering fruit trees given its large size and dense biomass (one regional study found jackfruit stands storing ~26.7 tonnes CO2/hectare). A reasonable per-tree estimate is ~30-40 kg CO2/year",
+      "useful_parts": "Fruit, Seeds, Leaves (fodder), Wood, Latex",
+      "avg_lifespan": "50-100 years (over 100 years reported in some cases)",
+      "pollination_method": "Mixed: Entomophily and Anemophily (insects and wind both involved)",
+      "pollinator": "Insects (attracted to scented male flowers), with wind dispersing pollen to female flowers",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Tree_full_of_jackfruit.jpg/960px-Tree_full_of_jackfruit.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "coconut",
@@ -189,7 +269,15 @@
       "wood_quality": "Fibrous 'wood' from the trunk is used in some construction; not a hardwood timber.",
       "flowering_season": "Flowers and fruits nearly year-round once mature",
       "fun_fact": "A single coconut palm can produce fruit for over 60 years.",
-      "common_name_hi": "नारियल"
+      "common_name_hi": "नारियल",
+      "fruiting_season": "Year-round in the tropics; ~11-12 months from flower opening to harvest, with a seasonal peak after the dry period",
+      "co2_sequestration": "~20-25 kg CO2/year (estimated, general medium-large tree average) - no reliable per-tree figure found; plantation-level studies report ~12-13 tonnes carbon/ha/year sequestered in coconut stands",
+      "useful_parts": "Fruit (meat, water), Husk, Shell, Leaves, Trunk/wood, Roots",
+      "avg_lifespan": "60-100 years (tall varieties); dwarf varieties are shorter-lived but bear earlier",
+      "pollination_method": "Mixed: anemophily (wind) and entomophily (insects); tall varieties are predominantly cross-pollinated, dwarf varieties mostly self-pollinated",
+      "pollinator": "Wind (primary agent in tall varieties); insects also visit; self-pollination common in dwarf varieties",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Coconut_Tree.JPG/960px-Coconut_Tree.JPG",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "teak",
@@ -206,7 +294,15 @@
       "wood_quality": "One of the most valued hardwoods in the world — strong, naturally weather- and pest-resistant, prized for furniture, boats, and construction.",
       "flowering_season": "June to August",
       "fun_fact": "Teak furniture can last for generations without needing chemical preservatives, thanks to natural oils in the wood.",
-      "common_name_hi": "सागौन"
+      "common_name_hi": "सागौन",
+      "fruiting_season": "September to December (fruit sets after June-August flowering)",
+      "co2_sequestration": "Reported among the highest of Indian timber species; plantations estimated to sequester ~191 tonnes CO2/ha over a 20-year rotation (study-based estimate, not a simple per-tree annual figure)",
+      "useful_parts": "Wood (timber, furniture), Leaves (natural dye, plates), Bark, Flowers",
+      "avg_lifespan": "80-150+ years",
+      "pollination_method": "Entomophily (insect-pollinated), occasionally anemophily (wind)",
+      "pollinator": "Bees (notably Ceratina spp. recorded in Thailand studies), other insects",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Tree_%28Tectona_grandis%29_I_IMG_6081.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "sal",
@@ -223,7 +319,15 @@
       "wood_quality": "Very strong, durable hardwood, historically used for railway sleepers and heavy construction.",
       "flowering_season": "February to April",
       "fun_fact": "Buddhist tradition holds that Buddha was born under a sal tree.",
-      "common_name_hi": "साल"
+      "common_name_hi": "साल",
+      "fruiting_season": "May to July (fruit ripens and disperses April to June)",
+      "co2_sequestration": "~20-25 kg CO2/year (estimated, general medium-to-large tree average) - no species-specific published figure found",
+      "useful_parts": "Resin (dhoop/damar), Seeds (sal oil), Leaves (plates/bowls), Wood (timber), Bark",
+      "avg_lifespan": "100-200 years in natural forest; commercial rotations of 30-160 years depending on regeneration method (coppice vs. high forest)",
+      "pollination_method": "Entomophily (insect-pollinated); also cleistogamy (self-pollination) and allogamy (cross-pollination)",
+      "pollinator": "Thrips (order Thysanoptera), other insects",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/Sal_Tree_%28Shorea_Robusta-Dipterocarpaceae%29.JPG/960px-Sal_Tree_%28Shorea_Robusta-Dipterocarpaceae%29.JPG",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "champa",
@@ -240,7 +344,15 @@
       "wood_quality": "Soft wood with little structural use, sometimes used in minor carving.",
       "flowering_season": "March to October",
       "fun_fact": "Its fragrance is strongest at night, when it attracts pollinating moths.",
-      "common_name_hi": "चंपा"
+      "common_name_hi": "चंपा",
+      "fruiting_season": "Seed pods rarely form (plants mostly propagated by cuttings); when they do, pods mature in early spring following flowers from June to November",
+      "co2_sequestration": "~15-20 kg CO2/year (estimated; small-to-medium ornamental tree, below large-canopy-tree averages) - not well documented for this species",
+      "useful_parts": "Flowers (fragrance, perfume, incense), Bark and sap (traditional medicine), Latex, Leaves",
+      "avg_lifespan": "50-100 years (estimated) - reaches full size in ~5 years and is long-lived, but a precise documented maximum age was not found",
+      "pollination_method": "Entomophily (insect-pollinated), via deceptive pollination (flowers are scented but offer no nectar reward)",
+      "pollinator": "Nocturnal sphinx moths (hawkmoths)",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Plumeria_rubra_%28flowers%29.jpg/960px-Plumeria_rubra_%28flowers%29.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "bottlebrush",
@@ -257,7 +369,15 @@
       "wood_quality": "Hard but rarely used commercially; the tree is grown for looks, not timber.",
       "flowering_season": "March to June, sometimes again in autumn",
       "fun_fact": "Its flowers are rich in nectar and are a favourite of sunbirds in Indian gardens.",
-      "common_name_hi": "बॉटलब्रश"
+      "common_name_hi": "बॉटलब्रश",
+      "fruiting_season": "Summer to autumn, following flowering (in India: chiefly February-May and August-November)",
+      "co2_sequestration": "~10-15 kg CO2/year (estimated; small-to-medium shrub/tree, below large-tree averages) - not well documented for this species",
+      "useful_parts": "Leaves (tea substitute, dye source), Flowers (dye), Wood (tool handles)",
+      "avg_lifespan": "~50 years (medium lifespan reported for the species)",
+      "pollination_method": "Mixed ornithophily (bird-pollinated) and entomophily (insect-pollinated)",
+      "pollinator": "Honeyeaters and other nectar-feeding birds; bees and other insects",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ea/Callistemon_citrinus_2.jpg/960px-Callistemon_citrinus_2.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "rain_tree",
@@ -274,7 +394,15 @@
       "wood_quality": "Moderately soft wood, occasionally used for carving and lightweight furniture.",
       "flowering_season": "April to June",
       "fun_fact": "Its leaves fold up in the evening or before rain, which is how it earned the name 'rain tree.'",
-      "common_name_hi": "विलायती सिरिस"
+      "common_name_hi": "विलायती सिरिस",
+      "fruiting_season": "Fruits mature 5.5-8 months after flowering; main crop ripens February to May",
+      "co2_sequestration": "~20-25 kg CO2/year (estimated, general large-tree average) - no species-specific figure found; being nitrogen-fixing and fast-growing with a very wide canopy, actual sequestration may run higher",
+      "useful_parts": "Pods (livestock fodder), Wood (furniture, carving - 'monkeypod'), Bark, Leaves (fodder, green manure)",
+      "avg_lifespan": "80-100+ years",
+      "pollination_method": "Entomophily (insect-pollinated), with some ornithophily",
+      "pollinator": "Bees and butterflies; also sparrows and hummingbirds drawn to abundant nectar",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/Hitachi%27s_tree_%28cropped%29.jpg/960px-Hitachi%27s_tree_%28cropped%29.jpg",
+      "image_source": "Wikimedia Commons (famous specimen, Moanalua Gardens, Hawaii)"
     },
     {
       "id": "karanj",
@@ -291,7 +419,15 @@
       "wood_quality": "Moderately hard wood, used for low-cost furniture and fuelwood.",
       "flowering_season": "April to July",
       "fun_fact": "Karanj oil is one of the earliest biodiesel candidates researched in India.",
-      "common_name_hi": "करंज"
+      "common_name_hi": "करंज",
+      "fruiting_season": "April to October, with pods developing to full size June to September",
+      "co2_sequestration": "~20-30 kg CO2/year for a mature tree (estimate reported in biofuel/agroforestry literature; varies with growth conditions)",
+      "useful_parts": "Seeds/oil (biodiesel, lubricant, soap), Leaves (green manure), Bark (fibre for rope), Wood",
+      "avg_lifespan": "Productive for several decades (starts bearing year 4-6); precise maximum natural lifespan not well documented, commonly cited informally as 50-100 years",
+      "pollination_method": "Entomophily (insect-pollinated)",
+      "pollinator": "Bees (nectar-feeding, trigger pollen release from keel petals)",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/61/Pongamia_pinnata.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "bael",
@@ -308,7 +444,15 @@
       "wood_quality": "Hard, yellowish wood, occasionally used for tool handles.",
       "flowering_season": "April to May",
       "fun_fact": "Bael leaves are traditionally offered in threes during worship of Lord Shiva.",
-      "common_name_hi": "बेल"
+      "common_name_hi": "बेल",
+      "fruiting_season": "July-August harvest; fruit takes 10-11 months to ripen from April-May flowering, maturing March-June of the following year",
+      "co2_sequestration": "~20-25 kg CO2/year (estimated, general medium-tree average) - not well documented for this species",
+      "useful_parts": "Fruit (pulp, juice, murabba), Leaves (medicinal, ritual use), Bark, Root, Wood",
+      "avg_lifespan": "50-100 years (estimated) - a slow-growing tree with a long productive life; precise documented maximum age not found",
+      "pollination_method": "Entomophily (insect-pollinated); self-incompatible, requiring cross-pollination for fruit set",
+      "pollinator": "Halictid bees and vespid wasps",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Trunks_and_leaves_of_Indian_bael_%28Aegle_marmelos%29.jpg/960px-Trunks_and_leaves_of_Indian_bael_%28Aegle_marmelos%29.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "semal",
@@ -325,7 +469,15 @@
       "wood_quality": "Soft, lightweight wood, used for packing cases, matchsticks, and plywood.",
       "flowering_season": "January to March, typically while leafless",
       "fun_fact": "Its cotton-like seed floss is naturally water-resistant, which is why it was historically used in life jackets.",
-      "common_name_hi": "सेमल"
+      "common_name_hi": "सेमल",
+      "fruiting_season": "March to May (fruit develops rapidly, often still forming while flowers remain on the leafless tree)",
+      "co2_sequestration": "~20-25 kg CO2/year (estimated, general medium-large tree average) - not well documented for this species; it is a fast-growing tree, which may favour higher early sequestration",
+      "useful_parts": "Fibre/kapok (fruit floss, used for stuffing), Gum (bark secretion, medicinal), Flowers (edible, medicinal), Roots, Bark",
+      "avg_lifespan": "Reaches ~30 m height and 2-3 m girth in about 50 years; can live considerably longer, though a precise maximum age is not well documented",
+      "pollination_method": "Ornithophily (bird-pollinated), with entomophily as a secondary pathway",
+      "pollinator": "Birds (mynas, sunbirds and others drawn to the bright red flowers); honeybees and bumblebees",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/Simal_tree_%283170409052%29.jpg/960px-Simal_tree_%283170409052%29.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "arjuna",
@@ -342,7 +494,15 @@
       "wood_quality": "Hard, strong wood, used for agricultural tools and construction.",
       "flowering_season": "March to June",
       "fun_fact": "Its smooth, pale bark makes it easy to identify even from a distance.",
-      "common_name_hi": "अर्जुन"
+      "common_name_hi": "अर्जुन",
+      "fruiting_season": "September to November (flowering March to June/July)",
+      "co2_sequestration": "~20-25 kg CO2/year (estimated, general large-tree average) - no species-specific figure found; its notably dense wood may support above-average carbon storage per unit volume",
+      "useful_parts": "Bark (cardiotonic, widely used in Ayurveda), Leaves (fodder, tanning), Fruit (tanning), Wood",
+      "avg_lifespan": "Commonly exceeds 50 years and frequently over 100 years",
+      "pollination_method": "Entomophily (insect-pollinated)",
+      "pollinator": "Honeybees - the tree is a major nectar source for honey production in parts of Kerala and Karnataka",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/Terminalia_arjuna_-_Bagh-e-Jinnah.jpg/960px-Terminalia_arjuna_-_Bagh-e-Jinnah.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "saptaparni",
@@ -359,7 +519,15 @@
       "wood_quality": "Soft, lightweight wood, easy to work but not very durable.",
       "flowering_season": "October to December",
       "fun_fact": "Its heavy night-time fragrance means some cities restrict planting it directly outside homes.",
-      "common_name_hi": "सप्तपर्णी"
+      "common_name_hi": "सप्तपर्णी",
+      "fruiting_season": "January to April (flowers October-December, fruits follow)",
+      "co2_sequestration": "~20-25 kg CO2/year (estimated, based on medium-to-large tree averages; no species-specific figure found in literature)",
+      "useful_parts": "Bark, Latex, Leaves, Wood",
+      "avg_lifespan": "40-60 years (estimated; precise figure not well documented, but it is a large, fast-growing tree reaching 40 m)",
+      "pollination_method": "Entomophily (insect-pollinated, with floral traits adapted for moths); also self-compatible/self-pollinating",
+      "pollinator": "Moths, bees, flies, butterflies",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Alstonia_scholaris_by_kadavoor.JPG/960px-Alstonia_scholaris_by_kadavoor.JPG",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "mast_tree",
@@ -376,7 +544,15 @@
       "wood_quality": "Lightweight wood, historically used for ship masts, giving the tree its English name.",
       "flowering_season": "March to April",
       "fun_fact": "It's frequently mislabelled simply as 'Ashoka tree,' though it's botanically unrelated to Saraca asoca.",
-      "common_name_hi": "देवदार अशोक"
+      "common_name_hi": "देवदार अशोक",
+      "fruiting_season": "Summer to autumn (fruit ripens dark purple-black after February-April flowering)",
+      "co2_sequestration": "Not well documented as an annual rate; a campus study in India found ~302 kg of carbon sequestered per tree cumulatively (timeframe/age unspecified). For an annual estimate, ~20-25 kg CO2/year is typical for a medium tree (estimated)",
+      "useful_parts": "Wood, Bark, Leaves",
+      "avg_lifespan": "Not well documented; estimated 20-40 years for cultivated avenue/ornamental specimens (moderately slow-growing, reaching 10-18 m)",
+      "pollination_method": "Entomophily (insect-pollinated); also self-pollinating",
+      "pollinator": "Insects (general pollinators); self-pollination also occurs",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/98/Polyalthia_longifolia.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "palash",
@@ -393,7 +569,15 @@
       "wood_quality": "Soft, spongy wood, not commercially valuable as timber.",
       "flowering_season": "February to April",
       "fun_fact": "Its flowers are the traditional source of the natural orange-red colour once used in Holi celebrations.",
-      "common_name_hi": "पलाश"
+      "common_name_hi": "पलाश",
+      "fruiting_season": "May to June (woody pods mature after February-April flowering)",
+      "co2_sequestration": "Not well documented as an annual rate; a Maharashtra campus study recorded ~3.55 tonnes cumulative carbon sequestered per tree (age/timeframe unspecified). For an annual estimate, ~20-25 kg CO2/year is typical for a medium tree (estimated)",
+      "useful_parts": "Flowers (dye), Gum/resin, Bark, Leaves, Lac (as host tree)",
+      "avg_lifespan": "40-100 years (estimated; described as long-living but precise figures not well documented)",
+      "pollination_method": "Ornithophily (bird-pollinated)",
+      "pollinator": "Birds (various nectar-feeding species)",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Butea_monosperma_flowers_DSC_3230.jpg/960px-Butea_monosperma_flowers_DSC_3230.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "shisham",
@@ -410,7 +594,15 @@
       "wood_quality": "One of India's most prized timbers — strong, richly grained, and widely used in furniture making.",
       "flowering_season": "March to April",
       "fun_fact": "Shisham furniture is a mainstay of Indian carpentry and is often exported internationally.",
-      "common_name_hi": "शीशम"
+      "common_name_hi": "शीशम",
+      "fruiting_season": "April to May (pods persist on tree for 7-8 months)",
+      "co2_sequestration": "~22 kg CO2/year for a mature individual tree (estimated); plantation studies report ~7.56 t/ha carbon sequestration capacity",
+      "useful_parts": "Wood/Timber, Leaves (fodder), Bark",
+      "avg_lifespan": "Over 100 years with proper growing conditions",
+      "pollination_method": "Entomophily (insect-pollinated); capable of both self- and cross-pollination",
+      "pollinator": "Insects (bees and other generalist pollinators)",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/Indian_Rosewood_tree_%284656268749%29.jpg/960px-Indian_Rosewood_tree_%284656268749%29.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "khejri",
@@ -427,7 +619,15 @@
       "wood_quality": "Hard, durable wood, used for farm tools, fuelwood, and construction in arid regions.",
       "flowering_season": "March to May",
       "fun_fact": "It's the state tree of Rajasthan and central to the story of the Chipko-like Khejarli sacrifice in 1730.",
-      "common_name_hi": "खेजड़ी"
+      "common_name_hi": "खेजड़ी",
+      "fruiting_season": "April to June (pods reach full size about two months after mid-April to mid-May flowering)",
+      "co2_sequestration": "Not well documented as a per-tree annual rate; agroforestry studies rank Khejri among the most efficient carbon sinks of arid-zone trees (plantations reported up to ~106 Mg C/ha). For a single-tree annual estimate, ~20-25 kg CO2/year is typical for a medium tree (estimated)",
+      "useful_parts": "Pods, Leaves (fodder), Bark, Wood",
+      "avg_lifespan": "150-200+ years (some individual specimens, e.g. in desert regions, reach ~400 years)",
+      "pollination_method": "Entomophily (insect-pollinated); self-incompatible, relies on cross-pollination",
+      "pollinator": "Honey bees (Apis cerana indica, A. dorsata), wasps, lady bird beetles",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Prosopis_cineraria_-_Khejri.jpg/960px-Prosopis_cineraria_-_Khejri.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "babul",
@@ -444,7 +644,15 @@
       "wood_quality": "Very hard, durable wood, used for tool handles, fencing, and fuelwood.",
       "flowering_season": "August to September",
       "fun_fact": "Its gum (gum arabic-like resin) has traditionally been used as a natural adhesive and thickener.",
-      "common_name_hi": "बबूल"
+      "common_name_hi": "बबूल",
+      "fruiting_season": "Pods form after spring flowering and mature through summer (precise regional timing not well documented)",
+      "co2_sequestration": "~20-25 kg CO2/year (estimated, based on medium-sized tree averages; no species-specific figure found)",
+      "useful_parts": "Bark, Gum, Pods, Wood",
+      "avg_lifespan": "30-60 years",
+      "pollination_method": "Entomophily (insect-pollinated)",
+      "pollinator": "Bees, butterflies, and other insects",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/30/Babool_%28Acacia_nilotica%29_flowers_at_Hodal_W_IMG_1163.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "casuarina",
@@ -461,7 +669,15 @@
       "wood_quality": "Hard, dense wood, but not typically used for fine furniture.",
       "flowering_season": "Inconspicuous flowers through much of the year",
       "fun_fact": "Despite looking like a pine, it isn't a conifer at all — it's a flowering plant.",
-      "common_name_hi": "सरू"
+      "common_name_hi": "सरू",
+      "fruiting_season": "Flowers and fruits year-round in warm climates, often with two peaks (February-April and September-October); cones mature ~18-20 weeks after flowering",
+      "co2_sequestration": "~20-25 kg CO2/year (estimated, based on fast-growing medium-sized tree averages; no species-specific figure found)",
+      "useful_parts": "Wood, Bark, Leaves/needles",
+      "avg_lifespan": "40-50 years",
+      "pollination_method": "Anemophily (wind-pollinated)",
+      "pollinator": "Wind",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Casuarina_equesitifolia_tree.jpg/960px-Casuarina_equesitifolia_tree.jpg",
+      "image_source": "Wikimedia Commons"
     },
     {
       "id": "eucalyptus",
@@ -478,7 +694,15 @@
       "wood_quality": "Moderately hard, fast-grown wood, mainly valued for pulp and construction rather than fine furniture.",
       "flowering_season": "Varies by species and region, often winter to spring",
       "fun_fact": "Its strong-smelling oil is a common ingredient in cold and cough balms.",
-      "common_name_hi": "नीलगिरी"
+      "common_name_hi": "नीलगिरी",
+      "fruiting_season": "Autumn (woody capsule 'gum-nut' fruits follow flowering, which in India occurs roughly September-December)",
+      "co2_sequestration": "Indian plantation studies report ~6-11 Mg C/ha/year at stand level; for a single mature tree, ~25-30 kg CO2/year is a reasonable estimate given its fast growth rate (estimated, species-specific single-tree figure not well documented)",
+      "useful_parts": "Leaves (oil), Bark, Wood",
+      "avg_lifespan": "Can exceed 100 years in its native range; commercial plantations are typically harvested at 10-20 years",
+      "pollination_method": "Entomophily (insect-pollinated, predominantly by bees); wind plays only a minor role",
+      "pollinator": "Honey bees (primary); also birds and small mammals",
+      "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/CSIRO_ScienceImage_714_Eucalyptus_Globulus_Plantation_Australia.jpg/960px-CSIRO_ScienceImage_714_Eucalyptus_Globulus_Plantation_Australia.jpg",
+      "image_source": "Wikimedia Commons (CSIRO)"
     },
     {
       "id": "amaltas",
@@ -496,7 +720,15 @@
       "wood_quality": "Hard, durable wood, occasionally used for tool handles and construction posts.",
       "flowering_season": "March to June",
       "fun_fact": "It's the national flower of Thailand and the state flower of Kerala.",
-      "common_name_hi": "अमलतास"
+      "common_name_hi": "अमलतास",
+      "fruiting_season": "Pods develop after April-May flowering, ripening to black over several months",
+      "co2_sequestration": "~20-25 kg CO2/year (estimated, based on medium-sized tree averages; no species-specific figure found)",
+      "useful_parts": "Fruit pulp, Pods, Bark, Root, Leaves, Flowers",
+      "avg_lifespan": "30-50 years (estimated; described as long-lived but precise figures not well documented)",
+      "pollination_method": "Entomophily (insect-pollinated)",
+      "pollinator": "Bees, butterflies (occasionally nectar-feeding birds)",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/22/Cassia_fistula_%28Amaltas%29_in_Hyderabad_W_IMG_8170.jpg",
+      "image_source": "Wikimedia Commons"
     }
   ]
 }

@@ -29,7 +29,7 @@ async def init_pool() -> asyncpg.Pool:
     await _create_schema()
     await _seed_if_empty()
     await _shorten_existing_teasers()
-    await _backfill_hindi_names()
+    await _sync_editable_fields()
     return _pool
 
 
@@ -60,7 +60,14 @@ async def _create_schema():
                 latitude DOUBLE PRECISION,
                 longitude DOUBLE PRECISION,
                 description TEXT,  -- short 1-2 sentence teaser only; full narrative content lives in ChromaDB (see knowledge/)
-                flowering_season TEXT
+                flowering_season TEXT,
+                fruiting_season TEXT,
+                co2_sequestration TEXT,
+                useful_parts TEXT,
+                avg_lifespan TEXT,
+                pollination_method TEXT,
+                pollinator TEXT,
+                image_url TEXT
             );
             """
         )
@@ -83,6 +90,11 @@ async def _create_schema():
         await conn.execute(
             "ALTER TABLE trees ADD COLUMN IF NOT EXISTS common_name_hi TEXT;"
         )
+        for col in (
+            "fruiting_season", "co2_sequestration", "useful_parts",
+            "avg_lifespan", "pollination_method", "pollinator", "image_url",
+        ):
+            await conn.execute(f"ALTER TABLE trees ADD COLUMN IF NOT EXISTS {col} TEXT;")
         await conn.execute("ALTER TABLE trees DROP COLUMN IF EXISTS uses;")
         await conn.execute("ALTER TABLE trees DROP COLUMN IF EXISTS wood_quality;")
         await conn.execute("ALTER TABLE trees DROP COLUMN IF EXISTS fun_fact;")
@@ -127,8 +139,10 @@ async def _seed_if_empty():
             """
             INSERT INTO trees (id, common_name_en, common_name_gu, common_name_hi,
                                 botanical_name, family, native_status, area_name,
-                                latitude, longitude, description, flowering_season)
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
+                                latitude, longitude, description, flowering_season,
+                                fruiting_season, co2_sequestration, useful_parts,
+                                avg_lifespan, pollination_method, pollinator, image_url)
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19)
             ON CONFLICT (id) DO NOTHING;
             """,
             [
@@ -136,6 +150,8 @@ async def _seed_if_empty():
                     t["id"], t["common_name_en"], t["common_name_gu"], t.get("common_name_hi"),
                     t["botanical_name"], t["family"], t["native_status"], t["area_name"],
                     t["latitude"], t["longitude"], _short_teaser(t["description"]), t["flowering_season"],
+                    t.get("fruiting_season"), t.get("co2_sequestration"), t.get("useful_parts"),
+                    t.get("avg_lifespan"), t.get("pollination_method"), t.get("pollinator"), t.get("image_url"),
                 )
                 for t in rows
             ],
@@ -160,23 +176,26 @@ async def _shorten_existing_teasers():
                 )
 
 
-async def _backfill_hindi_names():
-    """Same reasoning as _shorten_existing_teasers: common_name_hi was added
-    after this database was first seeded, so existing rows never got it.
-    Backfill from trees_data.json on every startup; a no-op once every row
-    already has a value."""
+EDITABLE_FIELDS = (
+    "common_name_hi", "fruiting_season", "co2_sequestration", "useful_parts",
+    "avg_lifespan", "pollination_method", "pollinator", "image_url",
+)
+
+
+async def _sync_editable_fields():
+    """These fields were added after trees was first seeded (_seed_if_empty
+    only runs once, against an empty table), AND are expected to keep being
+    hand-edited in trees_data.json going forward (e.g. by a mentor/reviewer
+    refining the dataset). So unlike the core seed fields (set once, never
+    touched again), these are always overwritten from trees_data.json on
+    every startup — edit the JSON, restart the app, see the change. Safe to
+    run every boot: a no-op once the JSON and the DB already agree."""
     async with get_pool().acquire() as conn:
-        missing = await conn.fetch(
-            "SELECT id FROM trees WHERE common_name_hi IS NULL;"
-        )
-        if not missing:
-            return
         with open(SEED_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
-        hindi_by_id = {t["id"]: t.get("common_name_hi") for t in data["trees"]}
-        for row in missing:
-            hi_name = hindi_by_id.get(row["id"])
-            if hi_name:
-                await conn.execute(
-                    "UPDATE trees SET common_name_hi = $1 WHERE id = $2;", hi_name, row["id"]
-                )
+        for t in data["trees"]:
+            values = [t.get(field) for field in EDITABLE_FIELDS]
+            set_clause = ", ".join(f"{field} = ${i+2}" for i, field in enumerate(EDITABLE_FIELDS))
+            await conn.execute(
+                f"UPDATE trees SET {set_clause} WHERE id = $1;", t["id"], *values
+            )
