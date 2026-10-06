@@ -30,6 +30,7 @@ async def init_pool() -> asyncpg.Pool:
     await _seed_if_empty()
     await _shorten_existing_teasers()
     await _sync_editable_fields()
+    await _sync_translations()
     return _pool
 
 
@@ -95,6 +96,9 @@ async def _create_schema():
             "avg_lifespan", "pollination_method", "pollinator", "image_url",
         ):
             await conn.execute(f"ALTER TABLE trees ADD COLUMN IF NOT EXISTS {col} TEXT;")
+        await conn.execute(
+            "ALTER TABLE trees ADD COLUMN IF NOT EXISTS i18n JSONB;"
+        )
         await conn.execute("ALTER TABLE trees DROP COLUMN IF EXISTS uses;")
         await conn.execute("ALTER TABLE trees DROP COLUMN IF EXISTS wood_quality;")
         await conn.execute("ALTER TABLE trees DROP COLUMN IF EXISTS fun_fact;")
@@ -198,4 +202,24 @@ async def _sync_editable_fields():
             set_clause = ", ".join(f"{field} = ${i+2}" for i, field in enumerate(EDITABLE_FIELDS))
             await conn.execute(
                 f"UPDATE trees SET {set_clause} WHERE id = $1;", t["id"], *values
+            )
+
+
+async def _sync_translations():
+    """Gujarati/Hindi translations of the display facts (description,
+    lifespan, pollinator, etc.), hand-maintained as a nested object per tree
+    in trees_data.json (t['i18n'] = {'gu': {...}, 'hi': {...}}). Stored as one
+    JSONB column rather than per-language TEXT columns to avoid a column
+    explosion (9 fields x 2 languages). Same always-resync reasoning as
+    _sync_editable_fields — edit the JSON, restart, see the change."""
+    async with get_pool().acquire() as conn:
+        with open(SEED_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        for t in data["trees"]:
+            i18n = t.get("i18n")
+            if i18n is None:
+                continue
+            await conn.execute(
+                "UPDATE trees SET i18n = $1::jsonb WHERE id = $2;",
+                json.dumps(i18n), t["id"],
             )
