@@ -86,6 +86,7 @@ RULES YOU MUST FOLLOW:
    Example: "Who is the CEO of Apple?" -> "I'm just here to talk about this {tree['common_name_en']} tree and its plant friends in the park — I can't help with questions outside that. Would you like to know about its uses, or how it compares to another tree here?"
 3. Keep answers conversational, concise, and friendly, like a real guide speaking to a visitor — not a textbook.
 4. If you don't know something specific, say so honestly rather than inventing details.
+5. HARD LIMIT: your entire reply must be under 100 words, in any language. If asked something broad (e.g. "tell me everything" or "tell me about its uses, history, and medicine"), pick the 2-3 most interesting points rather than covering everything — a short, complete answer is always better than a long one cut off mid-sentence. Never leave a sentence unfinished. If there's more to say, end by inviting a specific follow-up question instead of trying to fit it all in.
 5. Respond ONLY in {language_name}, regardless of what language the facts above are written in. Translate naturally — don't just transliterate.
 """
 
@@ -101,7 +102,16 @@ async def call_llm(system_prompt: str, history: list, user_message: str) -> str:
     messages += history
     messages.append({"role": "user", "content": user_message})
 
-    payload = {"model": HF_MODEL, "messages": messages, "max_tokens": 400, "temperature": 0.4}
+    # Gujarati/Hindi replies cost roughly 2.5x more tokens per character than
+    # English in this model's tokenizer (confirmed via direct testing), so a
+    # low cap truncates mid-sentence in those languages specifically. But
+    # raising the cap alone isn't enough: pushed for a long non-English reply,
+    # this model degenerates into repeating the same sentences in a loop
+    # rather than writing new content — frequency_penalty discourages that.
+    payload = {
+        "model": HF_MODEL, "messages": messages,
+        "max_tokens": 700, "temperature": 0.4, "frequency_penalty": 0.2,
+    }
     headers = {"Authorization": f"Bearer {HF_TOKEN}", "Content-Type": "application/json"}
 
     async with httpx.AsyncClient(timeout=60.0) as client:
@@ -113,9 +123,29 @@ async def call_llm(system_prompt: str, history: list, user_message: str) -> str:
         )
     data = resp.json()
     try:
-        return data["choices"][0]["message"]["content"].strip()
+        reply = data["choices"][0]["message"]["content"].strip()
     except (KeyError, IndexError) as exc:
         raise HTTPException(status_code=502, detail=f"Unexpected LLM response shape: {data}") from exc
+
+    finish_reason = data["choices"][0].get("finish_reason")
+    if finish_reason == "length":
+        reply = _trim_to_last_sentence(reply)
+    return reply
+
+
+SENTENCE_ENDINGS = (".", "।", "!", "?", "۔", "॥")
+
+
+def _trim_to_last_sentence(text: str) -> str:
+    """If the model got cut off mid-sentence (finish_reason='length'), trim
+    back to the last complete sentence instead of showing a dangling
+    fragment — a shorter complete answer reads better than a longer broken
+    one. Works across scripts since it just looks for common sentence-ending
+    punctuation, not language-specific tokenization."""
+    last_end = max((text.rfind(p) for p in SENTENCE_ENDINGS), default=-1)
+    if last_end == -1:
+        return text  # no sentence boundary found at all — return as-is rather than returning nothing
+    return text[: last_end + 1].strip()
 
 
 async def list_trees() -> list:
