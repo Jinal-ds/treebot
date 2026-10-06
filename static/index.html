@@ -571,6 +571,15 @@
     return `<div class="item"><div class="badge-icon">${icon}</div><div><div class="k">${label}</div><div class="v">${value}</div></div></div>`;
   }
 
+  // Hand-translated fact values live in tree.i18n.{gu|hi}.{field}, synced
+  // into Postgres from trees_data.json — falls back to the English column
+  // if a translation is missing (e.g. a newly-added tree not yet translated).
+  function localized(tree, field) {
+    const lang = getLanguage();
+    const translated = tree.i18n && tree.i18n[lang] && tree.i18n[lang][field];
+    return translated || tree[field];
+  }
+
   async function renderTreeProfile(treeId) {
     currentTreeId = treeId;
     const res = await fetch(`/api/tree/${treeId}`);
@@ -588,13 +597,13 @@
     const factsHtml = [
       fact(ICONS.pin, t().location, tree.area_name),
       fact(ICONS.compass, t().coordinates, `${tree.latitude}, ${tree.longitude}`),
-      fact(ICONS.blossom, t().flowering, tree.flowering_season),
-      fact(ICONS.fruit, t().fruiting, tree.fruiting_season),
-      fact(ICONS.hourglass, t().lifespan, tree.avg_lifespan),
-      fact(ICONS.cloud, t().co2, tree.co2_sequestration),
-      fact(ICONS.blossom, t().pollinationMethod, tree.pollination_method),
-      fact(ICONS.bee, t().pollinator, tree.pollinator),
-      fact(ICONS.parts, t().usefulParts, tree.useful_parts),
+      fact(ICONS.blossom, t().flowering, localized(tree, "flowering_season")),
+      fact(ICONS.fruit, t().fruiting, localized(tree, "fruiting_season")),
+      fact(ICONS.hourglass, t().lifespan, localized(tree, "avg_lifespan")),
+      fact(ICONS.cloud, t().co2, localized(tree, "co2_sequestration")),
+      fact(ICONS.blossom, t().pollinationMethod, localized(tree, "pollination_method")),
+      fact(ICONS.bee, t().pollinator, localized(tree, "pollinator")),
+      fact(ICONS.parts, t().usefulParts, localized(tree, "useful_parts")),
     ].join("");
 
     app.innerHTML = `
@@ -608,13 +617,13 @@
           <h1>${tree.common_name_en}</h1>
           <div class="gu-name">${secondaryName || ""}</div>
           <div class="botanical">${tree.botanical_name} · ${tree.family}</div>
-          <div class="badge">${tree.native_status}</div>
+          <div class="badge">${localized(tree, "native_status")}</div>
         </div>
       </div>
 
       <div class="card">
         <div class="section-title" style="color:${a.from}">${t().quickFacts}</div>
-        <div class="desc">${tree.description}</div>
+        <div class="desc">${localized(tree, "description")}</div>
         <div class="fact-grid">${factsHtml}</div>
       </div>
 

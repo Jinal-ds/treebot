@@ -22,7 +22,12 @@ async def list_trees() -> list:
 async def get_tree(tree_id: str) -> Optional[dict]:
     async with db.get_pool().acquire() as conn:
         row = await conn.fetchrow("SELECT * FROM trees WHERE id = $1;", tree_id)
-        return dict(row) if row else None
+        if not row:
+            return None
+        tree = dict(row)
+        if tree.get("i18n"):
+            tree["i18n"] = json.loads(tree["i18n"])  # asyncpg returns JSONB as raw text, not auto-decoded
+        return tree
 
 
 async def get_or_create_session(session_id: str, tree_id: str) -> dict:
