@@ -185,16 +185,39 @@
   }
   .desc { font-size: 14px; line-height: 1.5; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
 
+  /* column-count (not CSS Grid) so each tile takes only the height its own
+     content needs — Grid forces every row to match its tallest cell, which
+     left large empty gaps next to short facts sitting beside long ones. */
   .fact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 13px 16px;
+    column-count: 2;
+    column-gap: 14px;
     font-size: 13px;
   }
-  .fact-grid .item { border-radius: 8px; padding: 4px 6px; margin: -4px -6px; transition: background-color 0.15s ease; }
-  .fact-grid .item:hover { background: var(--moss-light); }
-  .fact-grid .item .k { color: var(--muted); font-size: 11.5px; display: flex; align-items: center; }
-  .fact-grid .item .v { font-weight: 600; margin-top: 1px; line-height: 1.35; }
+  @media (max-width: 400px) {
+    .fact-grid { column-count: 1; }
+  }
+  .fact-grid .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    break-inside: avoid;
+    background: var(--moss-light);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    transition: transform 0.15s ease;
+  }
+  .fact-grid .item:hover { transform: translateY(-1px); }
+  .fact-grid .item .badge-icon {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: white;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .fact-grid .item .badge-icon .icon { width: 16px; height: 16px; margin: 0; }
+  .fact-grid .item .k { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px; }
+  .fact-grid .item .v { font-weight: 600; margin-top: 2px; line-height: 1.4; }
 
   /* ---- floating chat button (opens the full chat page) ---- */
   .chat-fab {
@@ -545,7 +568,7 @@
 
   function fact(icon, label, value) {
     if (!value) return "";
-    return `<div class="item"><div class="k">${icon}${label}</div><div class="v">${value}</div></div>`;
+    return `<div class="item"><div class="badge-icon">${icon}</div><div><div class="k">${label}</div><div class="v">${value}</div></div></div>`;
   }
 
   async function renderTreeProfile(treeId) {
