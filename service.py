@@ -1,8 +1,19 @@
 """
 Service layer — business logic. Router handlers call into these functions;
 these functions call repository.py (Postgres), vectorstore.py (ChromaDB), and
-the Hugging Face LLM. Nothing here talks HTTP except raising HTTPException,
-which is the pragmatic FastAPI convention for "this didn't work" in a small app.
+the LLM (via an OpenAI-compatible chat completions endpoint). Nothing here
+talks HTTP except raising HTTPException, which is the pragmatic FastAPI
+convention for "this didn't work" in a small app.
+
+LLM provider: Groq (api.groq.com), not Hugging Face — switched after HF's
+free monthly inference credits ran out mid-project. Groq's free tier has no
+card requirement and, per direct testing, qwen/qwen3.8-27b gives clean,
+complete answers in English/Gujarati/Hindi with no truncation or repetition
+(unlike the openai/gpt-oss-* models on the same free tier, which burn large
+hidden "reasoning" token budgets before producing visible output — a bad
+fit here). Kept as an OpenAI-compatible endpoint deliberately, same as HF's
+router was, so swapping provider again later only means changing these
+three values, not rewriting call_llm().
 """
 
 import io
@@ -16,9 +27,9 @@ import db
 import repository
 import vectorstore
 
-HF_TOKEN = os.environ.get("HF_TOKEN", "")
-HF_MODEL = os.environ.get("HF_MODEL", "meta-llama/Llama-3.1-8B-Instruct")
-HF_ROUTER_URL = "https://router.huggingface.co/v1/chat/completions"
+LLM_API_KEY = os.environ.get("LLM_API_KEY", "")
+LLM_MODEL = os.environ.get("LLM_MODEL", "qwen/qwen3.8-27b")
+LLM_API_URL = os.environ.get("LLM_API_URL", "https://api.groq.com/openai/v1/chat/completions")
 
 # Used to build the link each tree's QR code points to. Must be the public
 # URL the QR codes will actually be scanned against (e.g. the Render URL in
@@ -87,35 +98,26 @@ RULES YOU MUST FOLLOW:
 3. Keep answers conversational, concise, and friendly, like a real guide speaking to a visitor — not a textbook.
 4. If you don't know something specific, say so honestly rather than inventing details.
 5. HARD LIMIT: your entire reply must be under 100 words, in any language. If asked something broad (e.g. "tell me everything" or "tell me about its uses, history, and medicine"), pick the 2-3 most interesting points rather than covering everything — a short, complete answer is always better than a long one cut off mid-sentence. Never leave a sentence unfinished. If there's more to say, end by inviting a specific follow-up question instead of trying to fit it all in.
-5. Respond ONLY in {language_name}, regardless of what language the facts above are written in. Translate naturally — don't just transliterate.
+6. Respond ONLY in {language_name}, regardless of what language the facts above are written in. Translate naturally — don't just transliterate.
 """
 
 
 async def call_llm(system_prompt: str, history: list, user_message: str) -> str:
-    if not HF_TOKEN:
+    if not LLM_API_KEY:
         raise HTTPException(
             status_code=500,
-            detail="HF_TOKEN is not set on the server. Add it as an environment variable.",
+            detail="LLM_API_KEY is not set on the server. Add it as an environment variable.",
         )
 
     messages = [{"role": "system", "content": system_prompt}]
     messages += history
     messages.append({"role": "user", "content": user_message})
 
-    # Gujarati/Hindi replies cost roughly 2.5x more tokens per character than
-    # English in this model's tokenizer (confirmed via direct testing), so a
-    # low cap truncates mid-sentence in those languages specifically. But
-    # raising the cap alone isn't enough: pushed for a long non-English reply,
-    # this model degenerates into repeating the same sentences in a loop
-    # rather than writing new content — frequency_penalty discourages that.
-    payload = {
-        "model": HF_MODEL, "messages": messages,
-        "max_tokens": 700, "temperature": 0.4, "frequency_penalty": 0.2,
-    }
-    headers = {"Authorization": f"Bearer {HF_TOKEN}", "Content-Type": "application/json"}
+    payload = {"model": LLM_MODEL, "messages": messages, "max_tokens": 700, "temperature": 0.4}
+    headers = {"Authorization": f"Bearer {LLM_API_KEY}", "Content-Type": "application/json"}
 
     async with httpx.AsyncClient(timeout=60.0) as client:
-        resp = await client.post(HF_ROUTER_URL, json=payload, headers=headers)
+        resp = await client.post(LLM_API_URL, json=payload, headers=headers)
 
     if resp.status_code != 200:
         raise HTTPException(

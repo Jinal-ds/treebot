@@ -22,8 +22,9 @@ services:
         condition: service_healthy
     environment:
       DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/treebot
-      HF_TOKEN: ${HF_TOKEN}
-      HF_MODEL: ${HF_MODEL}
+      LLM_API_KEY: ${LLM_API_KEY}
+      LLM_MODEL: ${LLM_MODEL}
+      LLM_API_URL: ${LLM_API_URL}
       BASE_URL: ${BASE_URL}
     volumes:
       - chroma_data:/app/chroma_data
