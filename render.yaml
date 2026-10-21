@@ -1,9 +1,3 @@
-databases:
-  - name: treebot-db
-    plan: free
-    databaseName: treebot
-    user: treebot
-
 services:
   - type: web
     name: tree-chatbot
@@ -14,13 +8,13 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9  # pin below 3.14: pydantic-core==2.23.4 has no prebuilt wheel for 3.14 and fails to compile in Render's build sandbox
-      - key: HF_TOKEN
-        sync: false
-      - key: HF_MODEL
-        value: meta-llama/Llama-3.1-8B-Instruct
-      - key: BASE_URL
-        sync: false  # set this to the service's own Render URL after first deploy, e.g. https://tree-chatbot.onrender.com — used to build each tree's QR code link
       - key: DATABASE_URL
-        fromDatabase:
-          name: treebot-db
-          property: connectionString
+        sync: false  # Neon Postgres connection string (direct, not -pooler) — Render's own free Postgres is NOT used: it's hard-deleted 30+14 days after creation, unacceptable for permanent production data behind printed QR codes
+      - key: LLM_API_KEY
+        sync: false  # Groq API key — switched from Hugging Face after its free monthly inference credits ran out
+      - key: LLM_MODEL
+        value: qwen/qwen3.8-27b
+      - key: LLM_API_URL
+        value: https://api.groq.com/openai/v1/chat/completions
+      - key: BASE_URL
+        sync: false  # set this to the service's own Render URL, e.g. https://tree-chatbot.onrender.com — used to build each tree's QR code link

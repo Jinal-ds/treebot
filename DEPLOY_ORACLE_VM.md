@@ -65,7 +65,7 @@ cp .env.vm.example .env
 nano .env
 ```
 
-In `nano`, fill in real values for `POSTGRES_PASSWORD` (make one up, keep it safe), `HF_TOKEN` (your Hugging Face token), `BASE_URL` and `DOMAIN` (both `https://treebot-park.duckdns.org` / `treebot-park.duckdns.org` — use your actual DuckDNS subdomain from step 1.4). Save with `Ctrl+O`, `Enter`, exit with `Ctrl+X`.
+In `nano`, fill in real values for `POSTGRES_PASSWORD` (make one up, keep it safe), `LLM_API_KEY` (your Groq API key), `BASE_URL` and `DOMAIN` (both `https://treebot-park.duckdns.org` / `treebot-park.duckdns.org` — use your actual DuckDNS subdomain from step 1.4). Save with `Ctrl+O`, `Enter`, exit with `Ctrl+X`.
 
 Start everything:
 
