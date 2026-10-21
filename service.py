@@ -16,6 +16,7 @@ router was, so swapping provider again later only means changing these
 three values, not rewriting call_llm().
 """
 
+import asyncio
 import io
 import os
 
@@ -45,8 +46,24 @@ LANGUAGE_NAMES = {"en": "English", "gu": "Gujarati", "hi": "Hindi"}
 async def startup():
     await db.init_pool()
     vectorstore.init_store()
-    vectorstore.sync_knowledge()
     await repository.refresh_qr_urls(BASE_URL)
+    # Embedding ~170 knowledge chunks on Render's free-tier CPU is slow enough
+    # (several minutes) to blow past Render's port-detection window if done
+    # here — the service would never go live. Run it in the background
+    # instead: the app serves core-fact answers immediately, and retrieval
+    # (vectorstore.retrieve_tree_chunks/retrieve_related_trees, which already
+    # tolerate an empty/partial collection) picks up richer chunks as soon as
+    # this finishes.
+    asyncio.create_task(_sync_knowledge_background())
+
+
+async def _sync_knowledge_background():
+    loop = asyncio.get_running_loop()
+    try:
+        await loop.run_in_executor(None, vectorstore.sync_knowledge)
+        print("[startup] Knowledge base sync complete.")
+    except Exception as exc:
+        print(f"[startup] Knowledge base sync failed: {exc!r}")
 
 
 async def shutdown():
