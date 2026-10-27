@@ -116,7 +116,18 @@ def sync_knowledge():
         collection.upsert(ids=ids[start:end], documents=documents[start:end], metadatas=metadatas[start:end])
 
 
-def retrieve_tree_chunks(query: str, tree_id: str, top_k: int = 6):
+def embed_query(text: str) -> list:
+    """Run the visitor's question through the embedding model exactly once.
+    Both retrieve_tree_chunks and retrieve_related_trees are called on the
+    same question on every chat turn — passing query_texts to each would
+    silently re-run this same (CPU-bound, slow on Render's free tier) model
+    call twice per turn for identical input. Call this once in service.chat()
+    and pass the result to both instead."""
+    collection = get_collection()
+    return collection._embedding_function([text])
+
+
+def retrieve_tree_chunks(query_embedding: list, tree_id: str, top_k: int = 6):
     """The current tree's own most-relevant knowledge chunks for this question.
     Higher top_k than the cross-tree comparison path, since this is the
     primary content the chatbot draws on for the tree the visitor is at."""
@@ -124,7 +135,7 @@ def retrieve_tree_chunks(query: str, tree_id: str, top_k: int = 6):
     if collection.count() == 0:
         return []
     results = collection.query(
-        query_texts=[query],
+        query_embeddings=query_embedding,
         n_results=min(top_k, collection.count()),
         where={"tree_id": tree_id},
     )
@@ -133,7 +144,7 @@ def retrieve_tree_chunks(query: str, tree_id: str, top_k: int = 6):
     return list(zip(metas, docs))
 
 
-def retrieve_related_trees(query: str, exclude_tree_id: str, top_k: int = 3):
+def retrieve_related_trees(query_embedding: list, exclude_tree_id: str, top_k: int = 3):
     """Other trees' chunks for comparison questions, ranked by relevance,
     using Chroma's native $ne filter (works cleanly now that a tree can have
     many chunks, unlike the old fetch-extra-and-filter-in-Python approach)."""
@@ -141,7 +152,7 @@ def retrieve_related_trees(query: str, exclude_tree_id: str, top_k: int = 3):
     if collection.count() == 0:
         return []
     results = collection.query(
-        query_texts=[query],
+        query_embeddings=query_embedding,
         n_results=min(top_k, collection.count()),
         where={"tree_id": {"$ne": exclude_tree_id}},
     )

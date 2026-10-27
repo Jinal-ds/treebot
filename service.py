@@ -184,8 +184,13 @@ async def chat(tree_id: str, session_id: str, message: str, language: str):
         raise HTTPException(status_code=404, detail=f"No tree with id '{tree_id}'")
 
     session = await repository.get_or_create_session(session_id, tree_id)
-    own_chunks = vectorstore.retrieve_tree_chunks(message, tree_id, top_k=CURRENT_TREE_TOP_K)
-    retrieved = vectorstore.retrieve_related_trees(message, exclude_tree_id=tree_id, top_k=OTHER_TREES_TOP_K)
+    # embed_query is CPU-bound (runs the ONNX model) — offload it so this one
+    # slow request doesn't stall every other concurrent visitor on this
+    # single-worker server (same reasoning as the background knowledge sync).
+    loop = asyncio.get_running_loop()
+    query_embedding = await loop.run_in_executor(None, vectorstore.embed_query, message)
+    own_chunks = vectorstore.retrieve_tree_chunks(query_embedding, tree_id, top_k=CURRENT_TREE_TOP_K)
+    retrieved = vectorstore.retrieve_related_trees(query_embedding, exclude_tree_id=tree_id, top_k=OTHER_TREES_TOP_K)
     system_prompt = build_system_prompt(tree, own_chunks, retrieved, language)
 
     reply = await call_llm(system_prompt, session["chat_json"], message)
