@@ -29,8 +29,8 @@ async def get_tree(tree_id: str):
 
 @router.post("/api/chat/{tree_id}", response_model=ChatResponse)
 async def chat(tree_id: str, req: ChatRequest):
-    reply = await service.chat(tree_id, req.session_id, req.message, req.language)
-    return ChatResponse(reply=reply)
+    reply, timing_ms = await service.chat(tree_id, req.session_id, req.message, req.language)
+    return ChatResponse(reply=reply, timing_ms=timing_ms)
 
 
 @router.get("/api/analytics/scans")

@@ -19,6 +19,7 @@ three values, not rewriting call_llm().
 import asyncio
 import io
 import os
+import time
 
 import httpx
 import qrcode
@@ -179,6 +180,13 @@ async def get_tree(tree_id: str) -> dict:
 
 
 async def chat(tree_id: str, session_id: str, message: str, language: str):
+    # TEMPORARY timing instrumentation — diagnosing how much of per-reply
+    # latency is the Render(Oregon)/Neon(Singapore) region mismatch vs. the
+    # Groq call itself, before deciding whether a database migration is
+    # worth it. Remove once resolved (also remove ChatResponse.timing_ms).
+    t_start = time.monotonic()
+    timing_ms = {}
+
     # These three don't depend on each other's results, so run them
     # concurrently instead of stacking three round trips (two to Neon, one
     # CPU-bound embedding) back to back — this was a real, measured chunk of
@@ -189,20 +197,27 @@ async def chat(tree_id: str, session_id: str, message: str, language: str):
         repository.get_or_create_session(session_id, tree_id),
         loop.run_in_executor(None, vectorstore.embed_query, message),
     )
+    timing_ms["db_and_embed_parallel"] = round((time.monotonic() - t_start) * 1000)
     if not tree:
         raise HTTPException(status_code=404, detail=f"No tree with id '{tree_id}'")
 
+    t = time.monotonic()
     own_chunks = vectorstore.retrieve_tree_chunks(query_embedding, tree_id, top_k=CURRENT_TREE_TOP_K)
     retrieved = vectorstore.retrieve_related_trees(query_embedding, exclude_tree_id=tree_id, top_k=OTHER_TREES_TOP_K)
     system_prompt = build_system_prompt(tree, own_chunks, retrieved, language)
+    timing_ms["chroma_retrieval"] = round((time.monotonic() - t) * 1000)
 
+    t = time.monotonic()
     reply = await call_llm(system_prompt, session["chat_json"], message)
+    timing_ms["groq_llm_call"] = round((time.monotonic() - t) * 1000)
+
     # Saving the turn doesn't need to delay the reply reaching the visitor —
     # run it in the background. Worst case on a crash mid-write: one turn's
     # history is lost, which is an acceptable trade for cutting a full extra
     # Neon round trip off every single reply.
     asyncio.create_task(repository.append_turn(session_id, message, reply))
-    return reply
+    timing_ms["total"] = round((time.monotonic() - t_start) * 1000)
+    return reply, timing_ms
 
 
 async def qr_png(tree_id: str) -> bytes:

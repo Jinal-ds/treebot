@@ -1,5 +1,7 @@
 """Request/response models used by router.py."""
 
+from typing import Optional
+
 from pydantic import BaseModel
 
 
@@ -11,3 +13,6 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     reply: str
+    # TEMPORARY — latency diagnosis only (Render/Oregon vs Neon/Singapore
+    # region mismatch investigation). Remove once resolved; see service.chat().
+    timing_ms: Optional[dict] = None
