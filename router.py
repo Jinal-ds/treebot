@@ -82,3 +82,14 @@ async def healthz():
         "trees_in_postgres": len(trees),
         "chroma_docs": vectorstore.get_collection().count(),
     }
+
+
+@router.get("/ping")
+def ping():
+    """Keep-alive target for the GitHub Actions workflow — deliberately touches
+    NEITHER Postgres nor Chroma. /healthz queries both, which would keep
+    resetting Neon's own 5-minute scale-to-zero timer on every ping and burn
+    through its separate free 100 CU-hour/month budget continuously. This
+    only needs to keep Render's process from spinning down; Neon is free to
+    scale to zero and wake normally on real visitor traffic."""
+    return {"status": "awake"}

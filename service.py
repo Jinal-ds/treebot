@@ -179,22 +179,29 @@ async def get_tree(tree_id: str) -> dict:
 
 
 async def chat(tree_id: str, session_id: str, message: str, language: str):
-    tree = await repository.get_tree(tree_id)
+    # These three don't depend on each other's results, so run them
+    # concurrently instead of stacking three round trips (two to Neon, one
+    # CPU-bound embedding) back to back — this was a real, measured chunk of
+    # the ~9-10s per-reply latency in production.
+    loop = asyncio.get_running_loop()
+    tree, session, query_embedding = await asyncio.gather(
+        repository.get_tree(tree_id),
+        repository.get_or_create_session(session_id, tree_id),
+        loop.run_in_executor(None, vectorstore.embed_query, message),
+    )
     if not tree:
         raise HTTPException(status_code=404, detail=f"No tree with id '{tree_id}'")
 
-    session = await repository.get_or_create_session(session_id, tree_id)
-    # embed_query is CPU-bound (runs the ONNX model) — offload it so this one
-    # slow request doesn't stall every other concurrent visitor on this
-    # single-worker server (same reasoning as the background knowledge sync).
-    loop = asyncio.get_running_loop()
-    query_embedding = await loop.run_in_executor(None, vectorstore.embed_query, message)
     own_chunks = vectorstore.retrieve_tree_chunks(query_embedding, tree_id, top_k=CURRENT_TREE_TOP_K)
     retrieved = vectorstore.retrieve_related_trees(query_embedding, exclude_tree_id=tree_id, top_k=OTHER_TREES_TOP_K)
     system_prompt = build_system_prompt(tree, own_chunks, retrieved, language)
 
     reply = await call_llm(system_prompt, session["chat_json"], message)
-    await repository.append_turn(session_id, message, reply)
+    # Saving the turn doesn't need to delay the reply reaching the visitor —
+    # run it in the background. Worst case on a crash mid-write: one turn's
+    # history is lost, which is an acceptable trade for cutting a full extra
+    # Neon round trip off every single reply.
+    asyncio.create_task(repository.append_turn(session_id, message, reply))
     return reply
 
 

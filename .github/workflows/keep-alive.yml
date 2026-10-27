@@ -13,6 +13,6 @@ jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping /healthz
+      - name: Ping /ping
         run: |
-          curl -fsS --max-time 90 https://tree-chatbot-jtht.onrender.com/healthz
+          curl -fsS --max-time 90 https://tree-chatbot-jtht.onrender.com/ping
