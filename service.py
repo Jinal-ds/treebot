@@ -44,6 +44,9 @@ OTHER_TREES_TOP_K = 3
 LANGUAGE_NAMES = {"en": "English", "gu": "Gujarati", "hi": "Hindi"}
 
 
+KEEP_ALIVE_INTERVAL_SECONDS = 300  # 5 min — comfortably under Render's 15-min spin-down window
+
+
 async def startup():
     await db.init_pool()
     vectorstore.init_store()
@@ -57,6 +60,18 @@ async def startup():
     # this finishes.
     asyncio.create_task(_sync_knowledge_background())
 
+    # Keep Render's free web service from spinning down after 15 min idle.
+    # Tried two external pingers first: GitHub Actions' schedule trigger
+    # never fired even once in 3.5+ hours (unexplained), and cron-job.org's
+    # pings were rejected with a 429 in ~200-500ms — too fast to be our app's
+    # real cold-start path, meaning Cloudflare (which fronts every Render
+    # free service) was blocking cron-job.org's shared IP pool at the edge,
+    # not our code. Self-pinging sidesteps third-party IP reputation
+    # entirely: the request looks like any other real visitor hitting the
+    # public URL, because it is one, it's just initiated by the app itself.
+    if "localhost" not in BASE_URL and "127.0.0.1" not in BASE_URL:
+        asyncio.create_task(_self_ping_loop())
+
 
 async def _sync_knowledge_background():
     loop = asyncio.get_running_loop()
@@ -65,6 +80,18 @@ async def _sync_knowledge_background():
         print("[startup] Knowledge base sync complete.")
     except Exception as exc:
         print(f"[startup] Knowledge base sync failed: {exc!r}")
+
+
+async def _self_ping_loop():
+    url = f"{BASE_URL.rstrip('/')}/ping"
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        while True:
+            await asyncio.sleep(KEEP_ALIVE_INTERVAL_SECONDS)
+            try:
+                resp = await client.get(url)
+                print(f"[keep-alive] self-ping {url} -> {resp.status_code}")
+            except Exception as exc:
+                print(f"[keep-alive] self-ping failed: {exc!r}")
 
 
 async def shutdown():
