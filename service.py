@@ -43,7 +43,7 @@ OTHER_TREES_TOP_K = 3
 LANGUAGE_NAMES = {"en": "English", "gu": "Gujarati", "hi": "Hindi"}
 
 
-KEEP_ALIVE_INTERVAL_SECONDS = 300  # 5 min — comfortably under Render's 15-min spin-down window
+KEEP_ALIVE_INTERVAL_SECONDS = 600  # 10 min — leaves a 5-min safety buffer under Render's 15-min spin-down window
 
 
 async def startup():
